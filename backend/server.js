@@ -7,6 +7,9 @@ import fs from "fs";
 import http from "http";
 import https from "https";
 import connectDB from "./config/db.js";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+
+import userRoutes from "./routes/userRoutes.js";
 
 let credentials = {};
 
@@ -48,6 +51,14 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+const __dirname = path.resolve();
+
+const PORT = process.env.PORT || 5000;
+
+app.use(express.json());
+
+app.use("/api/users", userRoutes);
+
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/build")));
 
@@ -60,7 +71,8 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const PORT = process.env.PORT || 5000;
+app.use(notFound);
+app.use(errorHandler);
 
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
