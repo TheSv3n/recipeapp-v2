@@ -1,13 +1,32 @@
 import mongoose from "mongoose";
 
-const reactionSchema = mongoose.Schema({
+const commentSchema = mongoose.Schema({
   user: {
     type: String,
     required: true,
   },
-  score: {
-    //Thumbs up = 1, thumbs down = -0.5
+  comment: {
     type: Number,
+    required: true,
+  },
+  timeSent: {
+    type: Date,
+    required: true,
+  },
+});
+
+const ratingSchema = mongoose.Schema({
+  user: {
+    type: String,
+    required: true,
+  },
+  reaction: {
+    //Thumbs up = 1, thumbs down = 2
+    type: Number,
+    required: true,
+  },
+  timeSent: {
+    type: Date,
     required: true,
   },
 });
@@ -50,7 +69,8 @@ const recipeSchema = mongoose.Schema(
       required: true,
     },
     ingredients: [ingredientSchema],
-    reactions: [reactionSchema],
+    reactions: [ratingSchema],
+    comments: [commentSchema],
   },
   {
     timestamps: true,
