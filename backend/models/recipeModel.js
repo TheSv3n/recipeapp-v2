@@ -69,8 +69,13 @@ const recipeSchema = mongoose.Schema(
       required: true,
     },
     ingredients: [ingredientSchema],
-    reactions: [ratingSchema],
+    ratings: [ratingSchema],
     comments: [commentSchema],
+    image: {
+      type: String,
+      required: true,
+      default: "/uploads/default.jpg",
+    },
   },
   {
     timestamps: true,

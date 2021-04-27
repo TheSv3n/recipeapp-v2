@@ -29,7 +29,8 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    following: [String],
+    followedRecipes: [String],
+    followedUsers: [String],
   },
   {
     timestamps: true,

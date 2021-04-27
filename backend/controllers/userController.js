@@ -25,7 +25,8 @@ const registerUser = asyncHandler(async (req, res) => {
     email: email.toLowerCase(),
     password,
     userNameLower: userName.toLowerCase(),
-    following: [],
+    followedUsers: [],
+    followedRecipes: [],
   });
 
   if (user) {
