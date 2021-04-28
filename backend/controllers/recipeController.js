@@ -44,4 +44,26 @@ const getAllRecipes = asyncHandler(async (req, res) => {
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
-export { createRecipe, getAllRecipes };
+//@desc Fetch Recipe
+//@route GET /api/recipes/:id
+//@access Public
+const getRecipe = asyncHandler(async (req, res) => {
+  const recipe = await Recipe.findById(req.params.id);
+
+  if (recipe) {
+    res.json(recipe);
+  } else {
+    res.status(404);
+    throw new Error("List not Found");
+  }
+});
+
+//@desc Fetch Users Recipe
+//@route GET /api/recipes/user/:id
+//@access Public
+const getUsersRecipes = asyncHandler(async (req, res) => {
+  const recipes = await Recipe.find({ creator: req.params.id });
+  res.json(recipes);
+});
+
+export { createRecipe, getAllRecipes, getRecipe, getUsersRecipes };
