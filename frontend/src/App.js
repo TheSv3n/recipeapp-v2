@@ -10,9 +10,7 @@ function App() {
     <>
       <Router>
         <NavBar />
-        <Container>
-          <Route path="/" component={FeedScreen} exact />
-        </Container>
+        <Route path="/" component={FeedScreen} exact />
       </Router>
     </>
   );

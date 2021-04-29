@@ -3,15 +3,20 @@ import { Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const RecipeListItem = ({ recipe }) => {
-  const [upvotesCount, setUpvotesCount] = useState("");
-  const [downvotesCount, setDownvotesCount] = useState("");
+  const [upvotesCount, setUpvotesCount] = useState(0);
+  const [downvotesCount, setDownvotesCount] = useState(0);
   const [userFavorited, setUserFavorited] = useState(false);
   const [favoritesCount, setFavoritesCount] = useState(0);
   return (
     <div className="recipe-card">
       <Link to={`/recipe/${recipe._id}`} style={{ textDecoration: "none" }}>
         <div className="img-container">
-          <Image src={recipe.image} alt={recipe.name} fluid></Image>
+          <Image
+            src={recipe.image}
+            alt={recipe.name}
+            fluid
+            className="recipe-card-image"
+          ></Image>
         </div>
         <div className="recipe-info">
           <h3>{recipe.name}</h3>
