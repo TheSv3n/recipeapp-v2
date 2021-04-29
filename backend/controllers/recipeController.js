@@ -38,10 +38,10 @@ const getAllRecipes = asyncHandler(async (req, res) => {
     : {};
 
   const count = await Recipe.countDocuments({ ...keyword });
-  const products = await Recipe.find({ ...keyword })
+  const recipes = await Recipe.find({ ...keyword })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
-  res.json({ products, page, pages: Math.ceil(count / pageSize) });
+  res.json({ recipes, page, pages: Math.ceil(count / pageSize) });
 });
 
 //@desc Fetch Recipe
