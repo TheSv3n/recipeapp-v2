@@ -38,6 +38,46 @@ body {
   color: var(--mainWhite);
 }
 
+.list-group-item {
+  border: 0.2rem solid var(--mainRed) !important;
+  border-radius: 15px !important;
+  text-align: center;
+  transition: all 0.2s linear;
+}
+
+.input-button {
+  background: var(--mainRed) !important;
+  color: var(--mainWhite) !important;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.input-button:hover {
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.2);
+  color: var(--mainWhite);
+  background: var(--shadowRed);
+}
+
+.submit-button {
+  background: var(--mainRed);
+  color: var(--mainWhite);
+  border-radius: 15px;
+}
+
+.submit-button:hover {
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.2);
+  color: var(--mainWhite);
+  background: var(--shadowRed);
+}
+
+.input-group-text {
+  background: var(--mainRed);
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
 .recipe-list {
   width: 90vw;
   margin: 0 auto;
