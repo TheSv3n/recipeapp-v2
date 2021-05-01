@@ -1,0 +1,44 @@
+label {
+  cursor: pointer;
+  background: var(--mainRed);
+  color: var(--mainWhite);
+  border-radius: 15px;
+  padding: 5px 10px;
+}
+
+label:hover {
+  background: var(--shadowRed);
+}
+
+#image-form {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.tag-grid {
+  display: inline-flex;
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 0.5rem;
+}
+
+.recipe-tag {
+  border-radius: 10px;
+  width: fit-content;
+  height: fit-content;
+  padding-inline: 1.5rem;
+  padding-block: 0.2rem;
+  background-color: var(--mainRed);
+  color: var(--mainWhite);
+}
+
+.temp-tag:hover {
+  cursor: default;
+}
+
+.tag-close-icon {
+  color: var(--mainWhite);
+  cursor: pointer;
+  transition: all 0.2s linear;
+  padding-left: 0.2rem;
+}

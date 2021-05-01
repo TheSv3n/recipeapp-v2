@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import FeedScreen from "./screens/FeedScreen";
 import LoginScreen from "./screens/LoginScreen";
+import NewRecipeScreen from "./screens/NewRecipeScreen";
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
       <Router>
         <NavBar />
         <Route path="/" component={FeedScreen} exact />
-        <Route path="/login" component={LoginScreen} exact />
+        <Route path="/login" component={LoginScreen} />
+        <Route path="/newrecipe" component={NewRecipeScreen} />
       </Router>
     </>
   );

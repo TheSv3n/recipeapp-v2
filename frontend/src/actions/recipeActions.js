@@ -8,7 +8,6 @@ import {
   RECIPE_CREATE_REQUEST,
   RECIPE_CREATE_SUCCESS,
   RECIPE_CREATE_FAIL,
-  RECIPE_CREATE_RESET,
 } from "../constants/recipeConstants";
 import axios from "axios";
 
@@ -32,7 +31,7 @@ export const listRecipes = () => async (dispatch) => {
   }
 };
 
-export const createRecipe = () => async (dispatch, getState) => {
+export const createRecipe = (recipe) => async (dispatch, getState) => {
   try {
     dispatch({
       type: RECIPE_CREATE_REQUEST,
@@ -48,7 +47,7 @@ export const createRecipe = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/recipes/`, {}, config);
+    const { data } = await axios.post(`/api/recipes/`, recipe, config);
 
     dispatch({
       type: RECIPE_CREATE_SUCCESS,

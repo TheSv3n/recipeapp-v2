@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
 
+const tagSchema = mongoose.Schema({
+  tag: {
+    type: String,
+    required: true,
+  },
+  tagLower: {
+    type: String,
+    required: true,
+  },
+});
+
 const commentSchema = mongoose.Schema({
   user: {
     type: String,
@@ -71,6 +82,7 @@ const recipeSchema = mongoose.Schema(
     ingredients: [ingredientSchema],
     ratings: [ratingSchema],
     comments: [commentSchema],
+    tags: [tagSchema],
     image: {
       type: String,
       required: true,

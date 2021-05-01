@@ -161,3 +161,24 @@ body {
   text-align: left;
   padding-bottom: 0.7rem;
 }
+.recipe-card-icons-row {
+  text-align: center;
+  padding-bottom: 0.1rem;
+  font-size: 1.5rem;
+  color: var(--iconGrey);
+  position: absolute;
+  bottom: 0%;
+  right: 10%;
+  left: 10%;
+}
+
+.downvoted {
+  color: var(--lightBlue);
+}
+.upvoted {
+  color: var(--lightBlue);
+}
+
+.favorited {
+  color: var(--mainRed);
+}

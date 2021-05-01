@@ -5,7 +5,7 @@ import Recipe from "../models/recipeModel.js";
 //@route POST /api/recipes
 //@access Private
 const createRecipe = asyncHandler(async (req, res) => {
-  const { name, description, directions, ingredients } = req.body;
+  const { name, description, directions, ingredients, tags, image } = req.body;
 
   const recipe = new Recipe({
     name,
@@ -14,6 +14,8 @@ const createRecipe = asyncHandler(async (req, res) => {
     description,
     directions,
     ingredients,
+    tags,
+    image,
   });
 
   const createdRecipe = await recipe.save();
