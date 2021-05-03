@@ -12,12 +12,15 @@ const FeedScreen = () => {
   const dispatch = useDispatch();
 
   const [showSearch, setShowSearch] = useState(false);
+  const [feedFinished, setFeedFinished] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   const recipeList = useSelector((state) => state.recipeList);
   const { loading, recipes } = recipeList;
+
+  const updateFeed = () => {};
 
   useEffect(() => {
     dispatch(listRecipes());
@@ -47,6 +50,23 @@ const FeedScreen = () => {
             return <RecipeListItem key={recipe.id} recipe={recipe} />;
           })}
       </section>
+
+      <div className="container">
+        <div className="input-group col-12  my-1 mr-auto mb-5">
+          {feedFinished ? (
+            <button className="btn disabled-button mx-3 col-5 mx-auto">
+              No More Recipes
+            </button>
+          ) : (
+            <button
+              onClick={updateFeed}
+              className="btn submit-button mx-3 col-5 mx-auto"
+            >
+              Get more recipes
+            </button>
+          )}
+        </div>
+      </div>
     </>
   );
 };
