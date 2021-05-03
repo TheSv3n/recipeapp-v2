@@ -1,0 +1,37 @@
+.right-button {
+  background: var(--mainRed);
+  color: var(--mainWhite);
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.left-button {
+  background: var(--mainRed);
+  color: var(--mainWhite);
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.switch-inactive {
+  background: var(--iconGrey);
+  color: var(--mainDark);
+}
+
+.switch-inactive:hover {
+  background-color: var(--shadowGrey) !important;
+  color: var(--mainDark) !important;
+}
+
+.switch-button:hover {
+  box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.2);
+  color: var(--mainWhite);
+  background: var(--shadowRed);
+}
+
+.switch-container {
+  text-align: center;
+}

@@ -19,7 +19,7 @@ const NewRecipeScreen = ({ history }) => {
   const [ingredientQuantity, setIngredientQuantity] = useState("");
   const [directions, setDirections] = useState("");
   const [ingredientArray, setIngredientArray] = useState([]);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState();
   const [uploading, setUploading] = useState(false);
   const [imageName, setImageName] = useState("No Image");
 
@@ -118,7 +118,7 @@ const NewRecipeScreen = ({ history }) => {
     }
     if (success) {
       dispatch({ type: RECIPE_CREATE_RESET });
-      history.push("/");
+      history.push(`/recipe/${recipe._id}`);
     }
   }, [dispatch, history, userInfo, success]);
 

@@ -2,6 +2,7 @@ import {
   RECIPE_LIST_REQUEST,
   RECIPE_LIST_SUCCESS,
   RECIPE_LIST_FAIL,
+  RECIPE_LIST_UPDATE_REQUEST,
   RECIPE_DETAILS_REQUEST,
   RECIPE_DETAILS_SUCCESS,
   RECIPE_DETAILS_FAIL,
@@ -21,9 +22,12 @@ export const recipeListReducer = (state = { recipes: [] }, action) => {
         recipes: action.payload.recipes,
         pages: action.payload.pages,
         page: action.payload.page,
+        feedFinished: action.payload.feedFinished,
       };
     case RECIPE_LIST_FAIL:
       return { loading: false, error: action.payload };
+    case RECIPE_LIST_UPDATE_REQUEST:
+      return { ...state, loading: true };
     default:
       return state;
   }

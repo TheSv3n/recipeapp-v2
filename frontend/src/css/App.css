@@ -72,6 +72,12 @@ body {
   background: var(--shadowRed);
 }
 
+.disabled-button {
+  background: var(--iconGrey);
+  color: var(--mainDark);
+  border-radius: 15px;
+}
+
 .input-group-text {
   background: var(--mainRed);
   border-top-left-radius: 15px;

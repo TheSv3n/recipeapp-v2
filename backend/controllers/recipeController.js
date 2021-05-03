@@ -27,7 +27,7 @@ const createRecipe = asyncHandler(async (req, res) => {
 //@route GET /api/recipes
 //@access Public
 const getAllRecipes = asyncHandler(async (req, res) => {
-  const pageSize = 2;
+  const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
 
   const keyword = req.query.keyword
