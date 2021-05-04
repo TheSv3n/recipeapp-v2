@@ -3,7 +3,6 @@ import { useHistory } from "react-router";
 
 const NewRecipeWidget = () => {
   const history = useHistory();
-  const [recipeName, setRecipeName] = useState("");
 
   const newRecipeHandler = (e) => {
     e.preventDefault();

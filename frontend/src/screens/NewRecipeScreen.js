@@ -120,7 +120,7 @@ const NewRecipeScreen = ({ history }) => {
       dispatch({ type: RECIPE_CREATE_RESET });
       history.push(`/recipe/${recipe._id}`);
     }
-  }, [dispatch, history, userInfo, success]);
+  }, [dispatch, history, userInfo, success, recipe]);
 
   return (
     <div className="container">

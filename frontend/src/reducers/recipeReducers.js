@@ -33,7 +33,7 @@ export const recipeListReducer = (state = { recipes: [] }, action) => {
   }
 };
 
-export const recipeCreateReducer = (state = {}, action) => {
+export const recipeCreateReducer = (state = { recipe: [] }, action) => {
   switch (action.type) {
     case RECIPE_CREATE_REQUEST:
       return {
@@ -59,7 +59,7 @@ export const recipeCreateReducer = (state = {}, action) => {
   }
 };
 
-export const recipeInfoReducer = (state = {}, action) => {
+export const recipeInfoReducer = (state = { recipe: {} }, action) => {
   switch (action.type) {
     case RECIPE_DETAILS_REQUEST:
       return {

@@ -83,6 +83,7 @@ const recipeSchema = mongoose.Schema(
     ratings: [ratingSchema],
     comments: [commentSchema],
     tags: [tagSchema],
+    followedBy: [String],
     image: {
       type: String,
       required: true,

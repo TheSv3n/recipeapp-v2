@@ -12,7 +12,10 @@ import {
 } from "../constants/recipeConstants";
 import axios from "axios";
 
-export const listRecipes = (newPage) => async (dispatch, getState) => {
+export const listRecipes = (newPage, searchKeyword) => async (
+  dispatch,
+  getState
+) => {
   try {
     const {
       recipeList: { recipes: recipesOld },
@@ -24,7 +27,9 @@ export const listRecipes = (newPage) => async (dispatch, getState) => {
       dispatch({ type: RECIPE_LIST_UPDATE_REQUEST });
     }
 
-    const { data } = await axios.get(`/api/recipes?pageNumber=${newPage}`);
+    const { data } = await axios.get(
+      `/api/recipes?pageNumber=${newPage}&keyword=${searchKeyword}`
+    );
 
     let tempRecipes;
 

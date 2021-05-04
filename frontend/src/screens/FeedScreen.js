@@ -14,6 +14,7 @@ const FeedScreen = () => {
 
   const [showSearch, setShowSearch] = useState(false);
   const [showTopRated, setShowTopRated] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -22,7 +23,7 @@ const FeedScreen = () => {
   const { loading, recipes, page, feedFinished } = recipeList;
 
   const updateFeed = () => {
-    dispatch(listRecipes(page + 1));
+    dispatch(listRecipes(page + 1, searchKeyword));
   };
 
   const handleFeedSwitch = (e) => {
@@ -31,8 +32,8 @@ const FeedScreen = () => {
   };
 
   useEffect(() => {
-    dispatch(listRecipes(1));
-  }, [dispatch]);
+    dispatch(listRecipes(1, searchKeyword));
+  }, [dispatch, searchKeyword]);
 
   return (
     <>
