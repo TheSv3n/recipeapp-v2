@@ -69,4 +69,47 @@ const getUsersRecipes = asyncHandler(async (req, res) => {
   res.json(recipes);
 });
 
-export { createRecipe, getAllRecipes, getRecipe, getUsersRecipes };
+// @desc    Create new rating
+// @route   POST /api/recipes/:id/ratings
+// @access  Private
+const setRecipeRating = asyncHandler(async (req, res) => {
+  const { reaction } = req.body;
+
+  const recipe = await Recipe.findById(req.params.id);
+
+  if (recipe) {
+    /*const alreadyReviewed = recipe.ratings.find(
+      (r) => r.user.toString() === req.user._id.toString()
+    );
+
+    if (alreadyReviewed) {
+      //res.status(400);
+      //throw new Error("Product already reviewed");
+    }
+    */
+
+    const rating = {
+      reaction: reaction,
+      user: req.user._id,
+      timeSent: Date.now(),
+    };
+
+    recipe.ratings.push(rating);
+
+    //recipe.numReviews = recipe.reviews.length;
+
+    await recipe.save();
+    res.status(201).json({ message: "Rating added" });
+  } else {
+    res.status(404);
+    throw new Error("Recipe not found");
+  }
+});
+
+export {
+  createRecipe,
+  getAllRecipes,
+  getRecipe,
+  getUsersRecipes,
+  setRecipeRating,
+};

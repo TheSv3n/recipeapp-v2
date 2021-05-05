@@ -4,7 +4,7 @@ import LoginWidget from "../components/LoginWidget";
 import TagElement from "../components/TagElement";
 import IngredientElement from "../components/IngredientElement";
 import CommentBox from "../components/CommentBox";
-import { getRecipeInfo } from "../actions/recipeActions";
+import { getRecipeInfo, setRecipeRating } from "../actions/recipeActions";
 import "../css/RecipeScreen.css";
 
 const RecipeScreen = ({ match }) => {
@@ -13,8 +13,10 @@ const RecipeScreen = ({ match }) => {
 
   const [upvotesCount, setUpvotesCount] = useState(0);
   const [downvotesCount, setDownvotesCount] = useState(0);
+
   const [userUpvoted, setUserUpvoted] = useState(false);
   const [userDownvoted, setUserDownvoted] = useState(false);
+  const [userRated, setUserRated] = useState(false);
   const [userFavorited, setUserFavorited] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -24,20 +26,63 @@ const RecipeScreen = ({ match }) => {
   const { recipe } = recipeInfo;
 
   const setRating = (rating) => {
-    //TODO
+    dispatch(setRecipeRating(recipe._id, rating));
   };
 
   const setFavorite = () => {
     //TODO
   };
 
-  const countRatings = () => {
-    //TODO
+  const checkUserFavorite = (followedBy, userId) => {
+    for (let i = 0; i < followedBy.length; i++) {
+      if (followedBy[i] === userId) {
+        setUserFavorited(true);
+      }
+    }
+  };
+
+  const countRatings = (ratings) => {
+    let tempUpvotes = 0;
+    let tempDownvotes = 0;
+
+    for (let i = 0; i < ratings.length; i++) {
+      if (ratings[i].reaction === 1) {
+        tempUpvotes++;
+      } else if (ratings[i].reaction === 2) {
+        tempDownvotes++;
+      }
+    }
+
+    setUpvotesCount(tempUpvotes);
+    setDownvotesCount(tempDownvotes);
+  };
+
+  const checkUserRating = (ratings, userId) => {
+    for (let i = 0; i < ratings.length; i++) {
+      if (ratings[i].user === userId.toString()) {
+        if (ratings[i].reaction === 1) {
+          setUserUpvoted(true);
+          setUserDownvoted(false);
+        } else if (ratings[i].reaction === 2) {
+          setUserDownvoted(true);
+          setUserUpvoted(false);
+        } else {
+          setUserDownvoted(false);
+          setUserUpvoted(false);
+        }
+      }
+    }
   };
 
   useEffect(() => {
-    dispatch(getRecipeInfo(recipeId));
-  }, [dispatch, userInfo, recipeId]);
+    if (!recipe || recipe._id !== recipeId) {
+      dispatch(getRecipeInfo(recipeId));
+    } else {
+      checkUserRating(recipe.ratings, userInfo._id);
+      countRatings(recipe.ratings);
+      checkUserFavorite(recipe.followedBy, userInfo._id);
+    }
+  }, [dispatch, userInfo, recipeId, recipe]);
 
   return (
     <div className="container">
@@ -46,35 +91,39 @@ const RecipeScreen = ({ match }) => {
           <ul className="list-group">
             <li className="list-group-item my-1 my-md-2 my-lg-2 mx-2">
               <div className="row">
-                <div className="recipe-title mx-auto">{recipe.name}</div>
+                <div className="recipe-title mx-auto">
+                  {recipe && recipe.name}
+                </div>
               </div>
               <div className="img-container">
                 <img
-                  src={recipe.image}
+                  src={recipe && recipe.image}
                   alt=""
                   className="recipe-image mx-auto"
                 ></img>
               </div>
               <div className="row">
                 <div className="recipe-description mx-auto">
-                  {recipe.description}
+                  {recipe && recipe.description}
                 </div>
               </div>
               <div className="row">
                 <div className="recipe-description mx-auto">
-                  Uploaded by {recipe.userName}
+                  Uploaded by {recipe && recipe.userName}
                 </div>
               </div>
               <div className="row recipe-heading">Tags</div>
               <section className="tag-grid">
-                {recipe.tags &&
+                {recipe &&
+                  recipe.tags &&
                   recipe.tags.map((tag) => {
                     return <TagElement key={tag._id} tag={tag} />;
                   })}
               </section>
               <div className="row recipe-heading">Ingredients</div>
               <section className="ingredient-grid">
-                {recipe.ingredients &&
+                {recipe &&
+                  recipe.ingredients &&
                   recipe.ingredients.map((ingredient) => {
                     return (
                       <IngredientElement
@@ -86,7 +135,9 @@ const RecipeScreen = ({ match }) => {
               </section>
               <div className="row recipe-heading">Directions</div>
               <div className="row">
-                <div className="recipe-directions">{recipe.directions}</div>
+                <div className="recipe-directions">
+                  {recipe && recipe.directions}
+                </div>
               </div>
               <div className="recipe-page-icons-row">
                 <span
@@ -129,7 +180,7 @@ const RecipeScreen = ({ match }) => {
                   ) : (
                     <i className="far fa-heart recipe-icon" />
                   )}{" "}
-                  {recipe.followedBy && recipe.followedBy.length}
+                  {recipe && recipe.followedBy && recipe.followedBy.length}
                 </span>
               </div>
               {userInfo ? (

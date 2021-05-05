@@ -17,7 +17,7 @@ const commentSchema = mongoose.Schema({
     required: true,
   },
   comment: {
-    type: Number,
+    type: String,
     required: true,
   },
   timeSent: {

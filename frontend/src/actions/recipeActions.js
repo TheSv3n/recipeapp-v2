@@ -9,6 +9,9 @@ import {
   RECIPE_CREATE_REQUEST,
   RECIPE_CREATE_SUCCESS,
   RECIPE_CREATE_FAIL,
+  RECIPE_SET_RATING_REQUEST,
+  RECIPE_SET_RATING_SUCCESS,
+  RECIPE_SET_RATING_FAIL,
 } from "../constants/recipeConstants";
 import axios from "axios";
 
@@ -124,6 +127,46 @@ export const getRecipeInfo = (recipeId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: RECIPE_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const setRecipeRating = (recipeId, reaction) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: RECIPE_SET_RATING_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.post(
+      `/api/recipes/${recipeId}/ratings`,
+      { reaction: reaction },
+      config
+    );
+
+    dispatch({
+      type: RECIPE_SET_RATING_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: RECIPE_SET_RATING_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
