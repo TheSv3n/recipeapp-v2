@@ -4,7 +4,12 @@ import LoginWidget from "../components/LoginWidget";
 import TagElement from "../components/TagElement";
 import IngredientElement from "../components/IngredientElement";
 import CommentBox from "../components/CommentBox";
-import { getRecipeInfo, setRecipeRating } from "../actions/recipeActions";
+import {
+  getRecipeInfo,
+  setRecipeRating,
+  addRecipeFollower,
+  removeRecipeFollower,
+} from "../actions/recipeActions";
 import "../css/RecipeScreen.css";
 
 const RecipeScreen = ({ match }) => {
@@ -18,6 +23,7 @@ const RecipeScreen = ({ match }) => {
   const [userDownvoted, setUserDownvoted] = useState(false);
   const [userRated, setUserRated] = useState(false);
   const [userFavorited, setUserFavorited] = useState(false);
+  const [favoriteCount, setFavoriteCount] = useState(0);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -27,10 +33,45 @@ const RecipeScreen = ({ match }) => {
 
   const setRating = (rating) => {
     dispatch(setRecipeRating(recipe._id, rating));
+    if (rating === 1) {
+      if (userUpvoted) {
+        setUserUpvoted(false);
+        setUpvotesCount(upvotesCount - 1);
+      } else if (userDownvoted) {
+        setUserDownvoted(false);
+        setDownvotesCount(downvotesCount - 1);
+        setUpvotesCount(upvotesCount + 1);
+        setUserUpvoted(true);
+      } else {
+        setUpvotesCount(upvotesCount + 1);
+        setUserUpvoted(true);
+      }
+    }
+    if (rating === 2) {
+      if (userUpvoted) {
+        setUserUpvoted(false);
+        setUpvotesCount(upvotesCount - 1);
+        setUserDownvoted(true);
+        setDownvotesCount(downvotesCount + 1);
+      } else if (userDownvoted) {
+        setUserDownvoted(false);
+        setDownvotesCount(downvotesCount - 1);
+      } else {
+        setUserDownvoted(true);
+        setDownvotesCount(downvotesCount + 1);
+      }
+    }
   };
 
   const setFavorite = () => {
-    //TODO
+    if (!userFavorited) {
+      dispatch(addRecipeFollower(recipeId));
+      setFavoriteCount(favoriteCount + 1);
+    } else {
+      dispatch(removeRecipeFollower(recipeId));
+      setFavoriteCount(favoriteCount - 1);
+    }
+    setUserFavorited(!userFavorited);
   };
 
   const checkUserFavorite = (followedBy, userId) => {
@@ -60,6 +101,7 @@ const RecipeScreen = ({ match }) => {
   const checkUserRating = (ratings, userId) => {
     for (let i = 0; i < ratings.length; i++) {
       if (ratings[i].user === userId.toString()) {
+        setUserRated(true);
         if (ratings[i].reaction === 1) {
           setUserUpvoted(true);
           setUserDownvoted(false);
@@ -81,6 +123,7 @@ const RecipeScreen = ({ match }) => {
       checkUserRating(recipe.ratings, userInfo._id);
       countRatings(recipe.ratings);
       checkUserFavorite(recipe.followedBy, userInfo._id);
+      setFavoriteCount(recipe.followedBy.length);
     }
   }, [dispatch, userInfo, recipeId, recipe]);
 
@@ -180,7 +223,7 @@ const RecipeScreen = ({ match }) => {
                   ) : (
                     <i className="far fa-heart recipe-icon" />
                   )}{" "}
-                  {recipe && recipe.followedBy && recipe.followedBy.length}
+                  {favoriteCount}
                 </span>
               </div>
               {userInfo ? (

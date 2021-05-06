@@ -12,6 +12,12 @@ import {
   RECIPE_SET_RATING_REQUEST,
   RECIPE_SET_RATING_SUCCESS,
   RECIPE_SET_RATING_FAIL,
+  RECIPE_ADD_FOLLOWER_REQUEST,
+  RECIPE_ADD_FOLLOWER_SUCCESS,
+  RECIPE_ADD_FOLLOWER_FAIL,
+  RECIPE_REMOVE_FOLLOWER_REQUEST,
+  RECIPE_REMOVE_FOLLOWER_SUCCESS,
+  RECIPE_REMOVE_FOLLOWER_FAIL,
 } from "../constants/recipeConstants";
 import axios from "axios";
 
@@ -167,6 +173,75 @@ export const setRecipeRating = (recipeId, reaction) => async (
   } catch (error) {
     dispatch({
       type: RECIPE_SET_RATING_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const addRecipeFollower = (recipeId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: RECIPE_ADD_FOLLOWER_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.put(`/api/recipes/${recipeId}/addfollower`, {}, config);
+
+    dispatch({
+      type: RECIPE_ADD_FOLLOWER_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: RECIPE_ADD_FOLLOWER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const removeRecipeFollower = (recipeId) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: RECIPE_REMOVE_FOLLOWER_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.put(`/api/recipes/${recipeId}/removefollower`, {}, config);
+
+    dispatch({
+      type: RECIPE_REMOVE_FOLLOWER_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: RECIPE_REMOVE_FOLLOWER_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

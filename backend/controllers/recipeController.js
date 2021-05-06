@@ -106,10 +106,48 @@ const setRecipeRating = asyncHandler(async (req, res) => {
   }
 });
 
+//@desc Update recipe follow list - add follower
+//@route PUT /api/recipes/:id/addfollower
+//@access Private
+const addRecipeFollower = asyncHandler(async (req, res) => {
+  const recipe = await Recipe.findById(req.params.id);
+
+  if (recipe) {
+    let tempFollowers = [...recipe.followedBy, req.user._id];
+    recipe.followedBy = tempFollowers;
+    const updatedRecipe = await recipe.save();
+    res.json(updatedRecipe);
+  } else {
+    res.status(404);
+    throw new Error("Recipe not Found");
+  }
+});
+
+//@desc Update recipe follow list - add follower
+//@route PUT /api/recipes/:id/addfollower
+//@access Private
+const removeRecipeFollower = asyncHandler(async (req, res) => {
+  const recipe = await Recipe.findById(req.params.id);
+
+  if (recipe) {
+    let tempFollowers = [...recipe.followedBy];
+    let index = tempFollowers.indexOf(req.user._id);
+    tempFollowers.splice(index, 1);
+    recipe.followedBy = tempFollowers;
+    const updatedRecipe = await recipe.save();
+    res.json(updatedRecipe);
+  } else {
+    res.status(404);
+    throw new Error("Recipe not Found");
+  }
+});
+
 export {
   createRecipe,
   getAllRecipes,
   getRecipe,
   getUsersRecipes,
   setRecipeRating,
+  addRecipeFollower,
+  removeRecipeFollower,
 };
