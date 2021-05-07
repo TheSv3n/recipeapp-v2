@@ -69,7 +69,7 @@ const getUsersRecipes = asyncHandler(async (req, res) => {
   res.json(recipes);
 });
 
-// @desc    Create new rating
+// @desc    Submit new rating
 // @route   POST /api/recipes/:id/ratings
 // @access  Private
 const setRecipeRating = asyncHandler(async (req, res) => {
@@ -78,28 +78,38 @@ const setRecipeRating = asyncHandler(async (req, res) => {
   const recipe = await Recipe.findById(req.params.id);
 
   if (recipe) {
-    /*const alreadyReviewed = recipe.ratings.find(
+    const alreadyRated = recipe.ratings.find(
       (r) => r.user.toString() === req.user._id.toString()
     );
 
-    if (alreadyReviewed) {
-      //res.status(400);
-      //throw new Error("Product already reviewed");
+    if (alreadyRated) {
+      let tempRatings = [...recipe.ratings];
+      let index = tempRatings.findIndex((rating) => {
+        return rating.user === req.user._id.toString();
+      });
+      const rating = {
+        reaction: reaction,
+        user: req.user._id,
+        timeSent: Date.now(),
+      };
+
+      tempRatings[index] = rating;
+
+      recipe.ratings = tempRatings;
+    } else {
+      const rating = {
+        reaction: reaction,
+        user: req.user._id,
+        timeSent: Date.now(),
+      };
+
+      recipe.ratings.push(rating);
     }
-    */
-
-    const rating = {
-      reaction: reaction,
-      user: req.user._id,
-      timeSent: Date.now(),
-    };
-
-    recipe.ratings.push(rating);
-
-    //recipe.numReviews = recipe.reviews.length;
 
     await recipe.save();
-    res.status(201).json({ message: "Rating added" });
+    res
+      .status(201)
+      .json({ message: `Rating ${alreadyRated ? "updated" : "added"}` });
   } else {
     res.status(404);
     throw new Error("Recipe not found");
