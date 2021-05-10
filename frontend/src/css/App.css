@@ -188,3 +188,7 @@ body {
 .favorited {
   color: var(--mainRed);
 }
+
+.comment-area {
+  min-height: 10rem;
+}

@@ -1,0 +1,17 @@
+.comment-card {
+  border: 0.2rem solid var(--mainYellow) !important;
+  border-bottom-left-radius: 0px !important;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.timestamp {
+  font-size: 0.7rem;
+  text-align: right;
+}
+
+.user {
+  font-size: 1.5rem;
+  color: var(--mainGreen);
+  text-align: right;
+}

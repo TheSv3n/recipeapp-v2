@@ -8,6 +8,7 @@ import {
   setRecipeRating,
   addRecipeFollower,
   removeRecipeFollower,
+  addNewComment,
 } from "../controllers/recipeController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
@@ -17,5 +18,6 @@ router.route("/user/:id").get(getUsersRecipes);
 router.route("/:id/ratings").post(protect, setRecipeRating);
 router.route("/:id/addfollower").put(protect, addRecipeFollower);
 router.route("/:id/removefollower").put(protect, removeRecipeFollower);
+router.route("/:id/comments").post(protect, addNewComment);
 
 export default router;

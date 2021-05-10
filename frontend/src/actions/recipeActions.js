@@ -18,6 +18,9 @@ import {
   RECIPE_REMOVE_FOLLOWER_REQUEST,
   RECIPE_REMOVE_FOLLOWER_SUCCESS,
   RECIPE_REMOVE_FOLLOWER_FAIL,
+  RECIPE_ADD_COMMENT_REQUEST,
+  RECIPE_ADD_COMMENT_SUCCESS,
+  RECIPE_ADD_COMMENT_FAIL,
 } from "../constants/recipeConstants";
 import axios from "axios";
 
@@ -170,6 +173,7 @@ export const setRecipeRating = (recipeId, reaction) => async (
     dispatch({
       type: RECIPE_SET_RATING_SUCCESS,
     });
+    dispatch(getRecipeInfo(recipeId));
   } catch (error) {
     dispatch({
       type: RECIPE_SET_RATING_FAIL,
@@ -203,6 +207,7 @@ export const addRecipeFollower = (recipeId) => async (dispatch, getState) => {
     dispatch({
       type: RECIPE_ADD_FOLLOWER_SUCCESS,
     });
+    dispatch(getRecipeInfo(recipeId));
   } catch (error) {
     dispatch({
       type: RECIPE_ADD_FOLLOWER_FAIL,
@@ -239,9 +244,51 @@ export const removeRecipeFollower = (recipeId) => async (
     dispatch({
       type: RECIPE_REMOVE_FOLLOWER_SUCCESS,
     });
+    dispatch(getRecipeInfo(recipeId));
   } catch (error) {
     dispatch({
       type: RECIPE_REMOVE_FOLLOWER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const addRecipeComment = (recipeId, comment) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: RECIPE_ADD_COMMENT_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.post(
+      `/api/recipes/${recipeId}/comments`,
+      { comment: comment },
+      config
+    );
+
+    dispatch({
+      type: RECIPE_ADD_COMMENT_SUCCESS,
+    });
+    dispatch(getRecipeInfo(recipeId));
+  } catch (error) {
+    dispatch({
+      type: RECIPE_ADD_COMMENT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

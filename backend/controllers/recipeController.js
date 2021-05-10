@@ -87,8 +87,14 @@ const setRecipeRating = asyncHandler(async (req, res) => {
       let index = tempRatings.findIndex((rating) => {
         return rating.user === req.user._id.toString();
       });
+      let tempReaction;
+      if (tempRatings[index].reaction === reaction) {
+        tempReaction = 0;
+      } else {
+        tempReaction = reaction;
+      }
       const rating = {
-        reaction: reaction,
+        reaction: tempReaction,
         user: req.user._id,
         timeSent: Date.now(),
       };
@@ -152,6 +158,31 @@ const removeRecipeFollower = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Submit new comment
+// @route   POST /api/recipes/:id/comments
+// @access  Private
+const addNewComment = asyncHandler(async (req, res) => {
+  const { comment } = req.body;
+
+  const recipe = await Recipe.findById(req.params.id);
+
+  if (recipe) {
+    const newComment = {
+      comment: comment,
+      user: req.user._id,
+      timeSent: Date.now(),
+    };
+
+    recipe.comments.push(newComment);
+
+    await recipe.save();
+    res.status(201).json({ message: "Comment Added" });
+  } else {
+    res.status(404);
+    throw new Error("Recipe not found");
+  }
+});
+
 export {
   createRecipe,
   getAllRecipes,
@@ -160,4 +191,5 @@ export {
   setRecipeRating,
   addRecipeFollower,
   removeRecipeFollower,
+  addNewComment,
 };

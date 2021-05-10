@@ -33,51 +33,24 @@ const RecipeScreen = ({ match }) => {
 
   const setRating = (rating) => {
     dispatch(setRecipeRating(recipe._id, rating));
-    if (rating === 1) {
-      if (userUpvoted) {
-        setUserUpvoted(false);
-        setUpvotesCount(upvotesCount - 1);
-      } else if (userDownvoted) {
-        setUserDownvoted(false);
-        setDownvotesCount(downvotesCount - 1);
-        setUpvotesCount(upvotesCount + 1);
-        setUserUpvoted(true);
-      } else {
-        setUpvotesCount(upvotesCount + 1);
-        setUserUpvoted(true);
-      }
-    }
-    if (rating === 2) {
-      if (userUpvoted) {
-        setUserUpvoted(false);
-        setUpvotesCount(upvotesCount - 1);
-        setUserDownvoted(true);
-        setDownvotesCount(downvotesCount + 1);
-      } else if (userDownvoted) {
-        setUserDownvoted(false);
-        setDownvotesCount(downvotesCount - 1);
-      } else {
-        setUserDownvoted(true);
-        setDownvotesCount(downvotesCount + 1);
-      }
-    }
   };
 
   const setFavorite = () => {
     if (!userFavorited) {
       dispatch(addRecipeFollower(recipeId));
-      setFavoriteCount(favoriteCount + 1);
     } else {
       dispatch(removeRecipeFollower(recipeId));
-      setFavoriteCount(favoriteCount - 1);
     }
-    setUserFavorited(!userFavorited);
   };
 
   const checkUserFavorite = (followedBy, userId) => {
-    for (let i = 0; i < followedBy.length; i++) {
-      if (followedBy[i] === userId) {
-        setUserFavorited(true);
+    if (followedBy.length === 0) {
+      setUserFavorited(false);
+    } else {
+      for (let i = 0; i < followedBy.length; i++) {
+        if (followedBy[i] === userId) {
+          setUserFavorited(true);
+        }
       }
     }
   };
@@ -232,7 +205,7 @@ const RecipeScreen = ({ match }) => {
                 <LoginWidget message="Login to react/save recipe" />
               )}
             </li>
-            <CommentBox />
+            <CommentBox recipe={recipe} />
           </ul>
         </div>
       </div>

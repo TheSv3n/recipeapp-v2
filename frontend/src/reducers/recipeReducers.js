@@ -63,6 +63,7 @@ export const recipeInfoReducer = (state = {}, action) => {
   switch (action.type) {
     case RECIPE_DETAILS_REQUEST:
       return {
+        ...state,
         loading: true,
       };
     case RECIPE_DETAILS_SUCCESS:
