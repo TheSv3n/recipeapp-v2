@@ -2,7 +2,7 @@ import React from "react";
 import CommentEditor from "./CommentEditor";
 import LoginWidget from "./LoginWidget";
 import Comment from "./Comment";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const CommentBox = ({ recipe }) => {
   const userLogin = useSelector((state) => state.userLogin);

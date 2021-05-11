@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -6,7 +7,45 @@ const RecipeListItem = ({ recipe }) => {
   const [upvotesCount, setUpvotesCount] = useState(0);
   const [downvotesCount, setDownvotesCount] = useState(0);
   const [userFavorited, setUserFavorited] = useState(false);
-  const [favoritesCount, setFavoritesCount] = useState(0);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const checkUserFavorite = (followedBy, userId) => {
+    if (followedBy.length === 0) {
+      setUserFavorited(false);
+    } else {
+      for (let i = 0; i < followedBy.length; i++) {
+        if (followedBy[i] === userId) {
+          setUserFavorited(true);
+        }
+      }
+    }
+  };
+
+  const countRatings = (ratings) => {
+    let tempUpvotes = 0;
+    let tempDownvotes = 0;
+
+    for (let i = 0; i < ratings.length; i++) {
+      if (ratings[i].reaction === 1) {
+        tempUpvotes++;
+      } else if (ratings[i].reaction === 2) {
+        tempDownvotes++;
+      }
+    }
+
+    setUpvotesCount(tempUpvotes);
+    setDownvotesCount(tempDownvotes);
+  };
+
+  useEffect(() => {
+    countRatings(recipe.ratings);
+    if (userInfo) {
+      checkUserFavorite(recipe.followedBy, userInfo._id);
+    }
+  }, [recipe, userInfo]);
+
   return (
     <div className="recipe-card">
       <Link to={`/recipe/${recipe._id}`} style={{ textDecoration: "none" }}>
@@ -33,7 +72,7 @@ const RecipeListItem = ({ recipe }) => {
               <i className="far mx-2 fa-heart recipe-card-icon favorited" />
             )}
 
-            {favoritesCount}
+            {recipe.followedBy.length}
           </div>
         </div>
       </Link>

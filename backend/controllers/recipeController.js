@@ -82,6 +82,8 @@ const setRecipeRating = asyncHandler(async (req, res) => {
     const alreadyRated = recipe.ratings.find(
       (r) => r.user.toString() === req.user._id.toString()
     );
+    let currentRating = recipe.rating;
+    let reactionScore;
 
     if (alreadyRated) {
       let tempRatings = [...recipe.ratings];
@@ -91,8 +93,20 @@ const setRecipeRating = asyncHandler(async (req, res) => {
       let tempReaction;
       if (tempRatings[index].reaction === reaction) {
         tempReaction = 0;
+        if (reaction === 1) {
+          reactionScore = -1;
+        }
+        if (reaction === 2) {
+          reactionScore = 0.5;
+        }
       } else {
         tempReaction = reaction;
+        if (reaction === 1) {
+          reactionScore = 1.5;
+        }
+        if (reaction === 2) {
+          reactionScore = -1.5;
+        }
       }
       const rating = {
         reaction: tempReaction,
@@ -110,8 +124,18 @@ const setRecipeRating = asyncHandler(async (req, res) => {
         timeSent: Date.now(),
       };
 
+      if (reaction === 1) {
+        reactionScore = 1;
+      }
+      if (reaction === 2) {
+        reactionScore = -0.5;
+      }
+
       recipe.ratings.push(rating);
     }
+
+    const tempTotalRating = currentRating + reactionScore;
+    recipe.rating = tempTotalRating;
 
     await recipe.save();
     res

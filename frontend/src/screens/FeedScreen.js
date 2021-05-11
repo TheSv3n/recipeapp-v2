@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { listRecipes } from "../actions/recipeActions";
 import RecipeListItem from "../components/RecipeListItem";
 import NewRecipeWidget from "../components/NewRecipeWidget";
@@ -12,7 +11,6 @@ import Loader from "../components/Loader";
 const FeedScreen = () => {
   const dispatch = useDispatch();
 
-  const [showSearch, setShowSearch] = useState(false);
   const [showTopRated, setShowTopRated] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
 
@@ -23,12 +21,16 @@ const FeedScreen = () => {
   const { loading, recipes, page, feedFinished } = recipeList;
 
   const updateFeed = () => {
-    dispatch(listRecipes(page + 1, searchKeyword));
+    dispatch(listRecipes(page + 1, searchKeyword, showTopRated));
   };
 
   const handleFeedSwitch = (e) => {
     e.preventDefault();
     setShowTopRated(!showTopRated);
+  };
+
+  const updateSearch = (string) => {
+    setSearchKeyword(string);
   };
 
   useEffect(() => {
@@ -46,15 +48,12 @@ const FeedScreen = () => {
               ) : (
                 <LoginWidget message="Login to Post Recipes" />
               )}
-              <SearchWidget />
-              {showSearch ? (
-                ""
-              ) : (
-                <FeedSwitch
-                  showTopRated={showTopRated}
-                  handleFeedSwitch={handleFeedSwitch}
-                />
-              )}
+              <SearchWidget recipes={recipes} updateSearch={updateSearch} />
+
+              <FeedSwitch
+                showTopRated={showTopRated}
+                handleFeedSwitch={handleFeedSwitch}
+              />
             </ul>
           </div>
         </div>
