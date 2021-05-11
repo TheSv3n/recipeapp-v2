@@ -192,3 +192,7 @@ body {
 .comment-area {
   min-height: 10rem;
 }
+
+.form-control {
+  border-radius: 15px;
+}

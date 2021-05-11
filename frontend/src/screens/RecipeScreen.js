@@ -21,7 +21,6 @@ const RecipeScreen = ({ match }) => {
 
   const [userUpvoted, setUserUpvoted] = useState(false);
   const [userDownvoted, setUserDownvoted] = useState(false);
-  const [userRated, setUserRated] = useState(false);
   const [userFavorited, setUserFavorited] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(0);
 
@@ -74,7 +73,6 @@ const RecipeScreen = ({ match }) => {
   const checkUserRating = (ratings, userId) => {
     for (let i = 0; i < ratings.length; i++) {
       if (ratings[i].user === userId.toString()) {
-        setUserRated(true);
         if (ratings[i].reaction === 1) {
           setUserUpvoted(true);
           setUserDownvoted(false);

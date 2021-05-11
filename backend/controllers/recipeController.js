@@ -29,6 +29,7 @@ const createRecipe = asyncHandler(async (req, res) => {
 const getAllRecipes = asyncHandler(async (req, res) => {
   const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
+  const ranked = req.query.ranked;
 
   const keyword = req.query.keyword
     ? {
@@ -41,7 +42,7 @@ const getAllRecipes = asyncHandler(async (req, res) => {
 
   const count = await Recipe.countDocuments({ ...keyword });
   const recipes = await Recipe.find({ ...keyword })
-    .sort({ createdAt: -1 })
+    .sort(ranked === "true" ? { rating: -1 } : { createdAt: -1 })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
   res.json({ recipes, page, pages: Math.ceil(count / pageSize) });

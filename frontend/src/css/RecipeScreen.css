@@ -51,3 +51,9 @@
   border-radius: 0.8rem;
   display: block;
 }
+
+.ingredient-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 1.5rem;
+}

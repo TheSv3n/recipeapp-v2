@@ -24,7 +24,7 @@ import {
 } from "../constants/recipeConstants";
 import axios from "axios";
 
-export const listRecipes = (newPage, searchKeyword) => async (
+export const listRecipes = (newPage, searchKeyword, showRanked) => async (
   dispatch,
   getState
 ) => {
@@ -40,7 +40,7 @@ export const listRecipes = (newPage, searchKeyword) => async (
     }
 
     const { data } = await axios.get(
-      `/api/recipes?pageNumber=${newPage}&keyword=${searchKeyword}`
+      `/api/recipes?pageNumber=${newPage}&keyword=${searchKeyword}&ranked=${showRanked}`
     );
 
     let tempRecipes;

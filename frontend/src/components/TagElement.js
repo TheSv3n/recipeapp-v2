@@ -1,7 +1,7 @@
 import React from "react";
 
-const TagElement = () => {
-  return <div>Tag Element</div>;
+const TagElement = ({ tag }) => {
+  return <div className="recipe-tag">{`${tag.tag}`}</div>;
 };
 
 export default TagElement;

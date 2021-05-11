@@ -32,8 +32,8 @@ const FeedScreen = () => {
   };
 
   useEffect(() => {
-    dispatch(listRecipes(1, searchKeyword));
-  }, [dispatch, searchKeyword]);
+    dispatch(listRecipes(1, searchKeyword, showTopRated));
+  }, [dispatch, searchKeyword, showTopRated]);
 
   return (
     <>
