@@ -8,10 +8,12 @@ import SearchWidget from "../components/SearchWidget";
 import FeedSwitch from "../components/FeedSwitch";
 import Loader from "../components/Loader";
 
-const FeedScreen = () => {
+const FeedScreen = ({ match }) => {
+  const searchString = match.params.search;
   const dispatch = useDispatch();
 
   const [showTopRated, setShowTopRated] = useState(false);
+  const [searchActive, setSearchActive] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -34,8 +36,14 @@ const FeedScreen = () => {
   };
 
   useEffect(() => {
-    dispatch(listRecipes(1, searchKeyword, showTopRated));
-  }, [dispatch, searchKeyword, showTopRated]);
+    if (searchString) {
+      setSearchKeyword(searchString);
+      dispatch(listRecipes(1, searchKeyword, showTopRated));
+      setSearchActive(true);
+    } else {
+      dispatch(listRecipes(1, searchKeyword, showTopRated));
+    }
+  }, [dispatch, searchKeyword, showTopRated, searchString]);
 
   return (
     <>
@@ -48,7 +56,12 @@ const FeedScreen = () => {
               ) : (
                 <LoginWidget message="Login to Post Recipes" />
               )}
-              <SearchWidget recipes={recipes} updateSearch={updateSearch} />
+              <SearchWidget
+                recipes={recipes}
+                updateSearch={updateSearch}
+                searchActive={searchActive}
+                searchStringFromLink={searchString}
+              />
 
               <FeedSwitch
                 showTopRated={showTopRated}

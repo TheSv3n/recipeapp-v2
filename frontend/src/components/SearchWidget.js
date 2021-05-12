@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router";
 
-const SearchWidget = ({ recipes, updateSearch }) => {
+const SearchWidget = ({
+  recipes,
+  updateSearch,
+  searchActive,
+  searchStringFromLink,
+}) => {
+  const history = useHistory();
   const [searchString, setSearchString] = useState("");
   const [searchTooShort, setSearchTooShort] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchString.length < 3) {
@@ -20,7 +28,18 @@ const SearchWidget = ({ recipes, updateSearch }) => {
     setSearchString("");
     updateSearch("");
     setShowSearch(false);
+    if (searchActive) {
+      history.push("/");
+    }
   };
+
+  useEffect(() => {
+    if (searchActive) {
+      setShowSearch(true);
+      setSearchString(searchStringFromLink);
+    }
+  }, [searchActive, searchStringFromLink]);
+
   return (
     <li className="list-group-item text-capitalize my-1 my-md-2 my-lg-2 mx-2">
       <form onSubmit={handleSearch}>
@@ -62,7 +81,7 @@ const SearchWidget = ({ recipes, updateSearch }) => {
           <div className="container">
             <div className="row">
               <div className="mx-auto">
-                Returned {recipes.length} results -{" "}
+                Returned {recipes && recipes.length} results -{" "}
                 <button className="btn submit-button" onClick={clearSearch}>
                   clear
                 </button>

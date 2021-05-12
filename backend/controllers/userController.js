@@ -76,4 +76,18 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, authUser };
+//@desc Get Users Username
+//@route GET /api/users/:id/username
+//@access Public
+const getUsername = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    res.json(user.userName);
+  } else {
+    res.status(404);
+    throw new Error("User not Found");
+  }
+});
+
+export { registerUser, authUser, getUsername };

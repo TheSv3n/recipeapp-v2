@@ -19,7 +19,7 @@ const NavBar = () => {
             <i className="fas fa-list-alt"></i>
           </span>
         </Link>
-        <Link to="/userRecipes" style={{ textDecoration: "none" }}>
+        <Link to="/userrecipes" style={{ textDecoration: "none" }}>
           <span className="nav-icon-span">
             {" "}
             <i className="fas fa-utensils"></i>

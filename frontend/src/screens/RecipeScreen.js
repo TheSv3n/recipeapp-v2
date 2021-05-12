@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import LoginWidget from "../components/LoginWidget";
 import TagElement from "../components/TagElement";
@@ -18,6 +19,7 @@ const RecipeScreen = ({ match }) => {
 
   const [upvotesCount, setUpvotesCount] = useState(0);
   const [downvotesCount, setDownvotesCount] = useState(0);
+  const [userName, setUserName] = useState("");
 
   const [userUpvoted, setUserUpvoted] = useState(false);
   const [userDownvoted, setUserDownvoted] = useState(false);
@@ -52,6 +54,13 @@ const RecipeScreen = ({ match }) => {
         }
       }
     }
+  };
+
+  const getUserName = async (creatorId) => {
+    const { data: userName } = await axios.get(
+      `/api/users/${creatorId}/username`
+    );
+    setUserName(userName);
   };
 
   const countRatings = (ratings) => {
@@ -95,6 +104,7 @@ const RecipeScreen = ({ match }) => {
       countRatings(recipe.ratings);
       checkUserFavorite(recipe.followedBy, userInfo._id);
       setFavoriteCount(recipe.followedBy.length);
+      getUserName(recipe.creator);
     }
   }, [dispatch, userInfo, recipeId, recipe]);
 
@@ -123,7 +133,7 @@ const RecipeScreen = ({ match }) => {
               </div>
               <div className="row">
                 <div className="recipe-description mx-auto">
-                  Uploaded by {recipe && recipe.userName}
+                  Uploaded by {recipe && userName}
                 </div>
               </div>
               <div className="row recipe-heading">Tags</div>

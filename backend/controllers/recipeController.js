@@ -33,10 +33,26 @@ const getAllRecipes = asyncHandler(async (req, res) => {
 
   const keyword = req.query.keyword
     ? {
-        name: {
-          $regex: req.query.keyword,
-          $options: "i",
-        },
+        $or: [
+          {
+            name: {
+              $regex: req.query.keyword,
+              $options: "i",
+            },
+          },
+          {
+            "ingredients.name": {
+              $regex: req.query.keyword,
+              $options: "i",
+            },
+          },
+          {
+            "tags.tag": {
+              $regex: req.query.keyword,
+              $options: "i",
+            },
+          },
+        ],
       }
     : {};
 
@@ -66,8 +82,12 @@ const getRecipe = asyncHandler(async (req, res) => {
 //@route GET /api/recipes/user/:id
 //@access Public
 const getUsersRecipes = asyncHandler(async (req, res) => {
+  const pageSize = 8;
+  const page = Number(req.query.pageNumber) || 1;
+
+  const count = await Recipe.countDocuments({ creator: req.params.id });
   const recipes = await Recipe.find({ creator: req.params.id });
-  res.json(recipes);
+  res.json({ recipes, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc    Submit new rating
@@ -102,10 +122,18 @@ const setRecipeRating = asyncHandler(async (req, res) => {
       } else {
         tempReaction = reaction;
         if (reaction === 1) {
-          reactionScore = 1.5;
+          if (tempRatings[index].reaction === 0) {
+            reactionScore = 1;
+          } else {
+            reactionScore = 1.5;
+          }
         }
         if (reaction === 2) {
-          reactionScore = -1.5;
+          if (tempRatings[index].reaction === 0) {
+            reactionScore = -0.5;
+          } else {
+            reactionScore = -1.5;
+          }
         }
       }
       const rating = {

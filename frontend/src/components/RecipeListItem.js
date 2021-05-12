@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useSelector } from "react-redux";
 import { Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const RecipeListItem = ({ recipe }) => {
   const [upvotesCount, setUpvotesCount] = useState(0);
+  const [userName, setUserName] = useState("");
   const [downvotesCount, setDownvotesCount] = useState(0);
   const [userFavorited, setUserFavorited] = useState(false);
 
@@ -39,8 +41,16 @@ const RecipeListItem = ({ recipe }) => {
     setDownvotesCount(tempDownvotes);
   };
 
+  const getUserName = async (creatorId) => {
+    const { data: userName } = await axios.get(
+      `/api/users/${creatorId}/username`
+    );
+    setUserName(userName);
+  };
+
   useEffect(() => {
     countRatings(recipe.ratings);
+    getUserName(recipe.creator);
     if (userInfo) {
       checkUserFavorite(recipe.followedBy, userInfo._id);
     }
@@ -59,7 +69,7 @@ const RecipeListItem = ({ recipe }) => {
         </div>
         <div className="recipe-info">
           <h3>{recipe.name}</h3>
-          <h4>Uploaded by {recipe.creator}</h4>
+          <h4>Uploaded by {userName}</h4>
           <h5>{recipe.description}</h5>
           <div className="recipe-card-icons-row">
             <i className="far fa-thumbs-up mx-2 recipe-card-icon upvoted" />
