@@ -82,11 +82,15 @@ const getRecipe = asyncHandler(async (req, res) => {
 //@route GET /api/recipes/user/:id
 //@access Public
 const getUsersRecipes = asyncHandler(async (req, res) => {
-  const pageSize = 8;
+  const pageSize = 2;
   const page = Number(req.query.pageNumber) || 1;
+  const ranked = req.query.ranked;
 
   const count = await Recipe.countDocuments({ creator: req.params.id });
-  const recipes = await Recipe.find({ creator: req.params.id });
+  const recipes = await Recipe.find({ creator: req.params.id })
+    .sort(ranked === "true" ? { rating: -1 } : { createdAt: -1 })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
   res.json({ recipes, page, pages: Math.ceil(count / pageSize) });
 });
 
