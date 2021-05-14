@@ -82,12 +82,28 @@ const getRecipe = asyncHandler(async (req, res) => {
 //@route GET /api/recipes/user/:id
 //@access Public
 const getUsersRecipes = asyncHandler(async (req, res) => {
-  const pageSize = 2;
+  const pageSize = 8;
   const page = Number(req.query.pageNumber) || 1;
   const ranked = req.query.ranked;
 
   const count = await Recipe.countDocuments({ creator: req.params.id });
   const recipes = await Recipe.find({ creator: req.params.id })
+    .sort(ranked === "true" ? { rating: -1 } : { createdAt: -1 })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+  res.json({ recipes, page, pages: Math.ceil(count / pageSize) });
+});
+
+//@desc Fetch Users Favorites
+//@route GET /api/recipes/user/:id/favorites
+//@access Private
+const getUsersFavorites = asyncHandler(async (req, res) => {
+  const pageSize = 8;
+  const page = Number(req.query.pageNumber) || 1;
+  const ranked = req.query.ranked;
+
+  const count = await Recipe.countDocuments({ followedBy: req.user._id });
+  const recipes = await Recipe.find({ followedBy: req.user._id })
     .sort(ranked === "true" ? { rating: -1 } : { createdAt: -1 })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
@@ -245,6 +261,7 @@ export {
   getAllRecipes,
   getRecipe,
   getUsersRecipes,
+  getUsersFavorites,
   setRecipeRating,
   addRecipeFollower,
   removeRecipeFollower,

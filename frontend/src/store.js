@@ -8,6 +8,7 @@ import {
   recipeCreateReducer,
   recipeInfoReducer,
   recipeUserListReducer,
+  recipeFavoriteListReducer,
 } from "./reducers/recipeReducers";
 
 const reducer = combineReducers({
@@ -17,6 +18,7 @@ const reducer = combineReducers({
   recipeCreate: recipeCreateReducer,
   recipeInfo: recipeInfoReducer,
   recipeUserList: recipeUserListReducer,
+  recipeFavoriteList: recipeFavoriteListReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

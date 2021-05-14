@@ -14,6 +14,10 @@ import {
   RECIPE_USERLIST_SUCCESS,
   RECIPE_USERLIST_FAIL,
   RECIPE_USERLIST_UPDATE_REQUEST,
+  RECIPE_FAVORITES_LIST_REQUEST,
+  RECIPE_FAVORITES_LIST_SUCCESS,
+  RECIPE_FAVORITES_LIST_FAIL,
+  RECIPE_FAVORITES_LIST_UPDATE_REQUEST,
 } from "../constants/recipeConstants";
 
 export const recipeListReducer = (state = { recipes: [] }, action) => {
@@ -100,6 +104,27 @@ export const recipeUserListReducer = (state = { recipes: [] }, action) => {
     case RECIPE_USERLIST_FAIL:
       return { loading: false, error: action.payload };
     case RECIPE_USERLIST_UPDATE_REQUEST:
+      return { ...state, loading: true };
+    default:
+      return state;
+  }
+};
+
+export const recipeFavoriteListReducer = (state = { recipes: [] }, action) => {
+  switch (action.type) {
+    case RECIPE_FAVORITES_LIST_REQUEST:
+      return { loading: true, recipes: [] };
+    case RECIPE_FAVORITES_LIST_SUCCESS:
+      return {
+        loading: false,
+        recipes: action.payload.recipes,
+        pages: action.payload.pages,
+        page: action.payload.page,
+        feedFinished: action.payload.feedFinished,
+      };
+    case RECIPE_FAVORITES_LIST_FAIL:
+      return { loading: false, error: action.payload };
+    case RECIPE_FAVORITES_LIST_UPDATE_REQUEST:
       return { ...state, loading: true };
     default:
       return state;

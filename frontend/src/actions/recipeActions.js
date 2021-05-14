@@ -25,21 +25,24 @@ import {
   RECIPE_USERLIST_SUCCESS,
   RECIPE_USERLIST_FAIL,
   RECIPE_USERLIST_UPDATE_REQUEST,
+  RECIPE_FAVORITES_LIST_REQUEST,
+  RECIPE_FAVORITES_LIST_SUCCESS,
+  RECIPE_FAVORITES_LIST_FAIL,
+  RECIPE_FAVORITES_LIST_UPDATE_REQUEST,
 } from "../constants/recipeConstants";
 import axios from "axios";
 
 export const listRecipes =
   (newPage, searchKeyword, showRanked) => async (dispatch, getState) => {
     try {
-      const {
-        recipeList: { recipes: recipesOld },
-      } = getState();
-
       if (newPage === 1) {
         dispatch({ type: RECIPE_LIST_REQUEST });
       } else {
         dispatch({ type: RECIPE_LIST_UPDATE_REQUEST });
       }
+      const {
+        recipeList: { recipes: recipesOld },
+      } = getState();
 
       const { data } = await axios.get(
         `/api/recipes?pageNumber=${newPage}&keyword=${searchKeyword}&ranked=${showRanked}`
@@ -296,6 +299,11 @@ export const addRecipeComment =
 export const listUsersRecipes =
   (newPage, showRanked) => async (dispatch, getState) => {
     try {
+      if (newPage === 1) {
+        dispatch({ type: RECIPE_USERLIST_REQUEST });
+      } else {
+        dispatch({ type: RECIPE_USERLIST_UPDATE_REQUEST });
+      }
       const {
         recipeUserList: { recipes: recipesOld },
       } = getState();
@@ -303,12 +311,6 @@ export const listUsersRecipes =
       const {
         userLogin: { userInfo },
       } = getState();
-
-      if (newPage === 1) {
-        dispatch({ type: RECIPE_USERLIST_REQUEST });
-      } else {
-        dispatch({ type: RECIPE_USERLIST_UPDATE_REQUEST });
-      }
 
       const { data } = await axios.get(
         `/api/recipes/user/${userInfo._id}?pageNumber=${newPage}&ranked=${showRanked}`
@@ -341,6 +343,69 @@ export const listUsersRecipes =
     } catch (error) {
       dispatch({
         type: RECIPE_USERLIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
+
+export const listUsersFavorites =
+  (newPage, showRanked) => async (dispatch, getState) => {
+    try {
+      if (newPage === 1) {
+        dispatch({ type: RECIPE_FAVORITES_LIST_REQUEST });
+      } else {
+        dispatch({ type: RECIPE_FAVORITES_LIST_UPDATE_REQUEST });
+      }
+      const {
+        recipeFavoriteList: { recipes: recipesOld },
+      } = getState();
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.get(
+        `/api/recipes/user/${userInfo._id}/favorites?pageNumber=${newPage}&ranked=${showRanked}`,
+        config
+      );
+
+      let tempRecipes;
+
+      if (newPage === 1) {
+        tempRecipes = [...data.recipes];
+      } else {
+        tempRecipes = [...recipesOld, ...data.recipes];
+      }
+
+      let feedFinished = false;
+
+      if (data.page === data.pages) {
+        feedFinished = true;
+      }
+
+      const newPayload = {
+        recipes: tempRecipes,
+        page: data.page,
+        pages: data.pages,
+        feedFinished: feedFinished,
+      };
+      dispatch({
+        type: RECIPE_FAVORITES_LIST_SUCCESS,
+        payload: newPayload,
+      });
+    } catch (error) {
+      dispatch({
+        type: RECIPE_FAVORITES_LIST_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
