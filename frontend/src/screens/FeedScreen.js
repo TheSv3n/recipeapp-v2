@@ -7,8 +7,11 @@ import LoginWidget from "../components/LoginWidget";
 import SearchWidget from "../components/SearchWidget";
 import FeedSwitch from "../components/FeedSwitch";
 import Loader from "../components/Loader";
+import Meta from "../components/Meta";
+import { updatePageHeading } from "../actions/navBarActions";
 
 const FeedScreen = ({ match }) => {
+  const titleString = "Main Feed - RecipeApp";
   const searchString = match.params.search;
   const dispatch = useDispatch();
 
@@ -43,10 +46,12 @@ const FeedScreen = ({ match }) => {
     } else {
       dispatch(listRecipes(1, searchKeyword, showTopRated));
     }
+    dispatch(updatePageHeading(titleString));
   }, [dispatch, searchKeyword, showTopRated, searchString]);
 
   return (
     <>
+      <Meta title={titleString} />
       <div className="container">
         <div className="row">
           <div className="col-12 mx-auto col-md-12 col-lg-12">

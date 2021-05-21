@@ -30,6 +30,7 @@ import {
   RECIPE_FAVORITES_LIST_FAIL,
   RECIPE_FAVORITES_LIST_UPDATE_REQUEST,
 } from "../constants/recipeConstants";
+import { updatePageHeading } from "../actions/navBarActions";
 import axios from "axios";
 
 export const listRecipes =
@@ -138,6 +139,7 @@ export const getRecipeInfo = (recipeId) => async (dispatch, getState) => {
       type: RECIPE_DETAILS_SUCCESS,
       payload: data,
     });
+    dispatch(updatePageHeading(`${data.name} - RecipeApp`));
   } catch (error) {
     dispatch({
       type: RECIPE_DETAILS_FAIL,

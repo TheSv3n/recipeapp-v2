@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { login, registerUser } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
+import { updatePageHeading } from "../actions/navBarActions";
+import Meta from "../components/Meta";
 
 const LoginScreen = ({ location, history }) => {
+  const titleString = "Login - RecipeApp";
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [emailVerify, setEmailVerify] = useState("");
@@ -32,6 +35,7 @@ const LoginScreen = ({ location, history }) => {
     } else if (registerError) {
       setErrorText(registerError);
     }
+    dispatch(updatePageHeading(titleString));
   }, [history, userInfo, redirect, error, registerError, dispatch]);
 
   const dataValid = () => {
@@ -95,159 +99,162 @@ const LoginScreen = ({ location, history }) => {
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-12 mx-auto col-md-12 col-lg-12">
-          <li className="list-group-item my-2">
-            <form>
-              <div className="row">
-                <div className="input-group col-12  my-1">
-                  <div className="input-group-prepend">
-                    <div className="input-group-text text-white">
-                      <i className="fas fa-user" />
-                    </div>
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder={
-                      newUserToggle ? "Username" : "Username/Email Address"
-                    }
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="input-group col-12 my-1">
-                  <div className="input-group-prepend">
-                    <div className="input-group-text text-white">
-                      <i className="fas fa-key" />
-                    </div>
-                  </div>
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-              </div>
-              {newUserToggle ? (
-                <>
-                  <div className="row">
-                    <div className="input-group col-12 my-1">
-                      <div className="input-group-prepend">
-                        <div className="input-group-text text-white">
-                          <i className="fas fa-key" />
-                        </div>
-                      </div>
-                      <input
-                        type="password"
-                        className="form-control"
-                        placeholder="Verify Password"
-                        value={passwordVerify}
-                        onChange={(e) => setPasswordVerify(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="input-group col-6  my-1">
-                      <div className="input-group-prepend">
-                        <div className="input-group-text text-white">
-                          <i className="fas fa-id-card" />
-                        </div>
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="First Name"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                      />
-                    </div>
-                    <div className="input-group col-6 my-1">
-                      <div className="input-group-prepend">
-                        <div className="input-group-text text-white">
-                          <i className="fas fa-id-card" />
-                        </div>
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Last Name"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="input-group col-12 my-1">
-                      <div className="input-group-prepend">
-                        <div className="input-group-text text-white">
-                          <i className="fas fa-at" />
-                        </div>
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Email Address"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="input-group col-12 my-1">
-                      <div className="input-group-prepend">
-                        <div className="input-group-text text-white">
-                          <i className="fas fa-at" />
-                        </div>
-                      </div>
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Verify Email Address"
-                        value={emailVerify}
-                        onChange={(e) => setEmailVerify(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                </>
-              ) : (
-                ""
-              )}
-              <div className="row mx-auto">
-                <button
-                  type="submit"
-                  onClick={newUserToggle ? createUserHandler : loginHandler}
-                  className="btn submit-button col-5 mr-auto mt-1"
-                >
-                  {newUserToggle ? "Create" : "Login"}
-                </button>
-
-                <button
-                  onClick={toggleNewUserHandler}
-                  className="btn btn-block submit-button col-5 ml-auto mt-1"
-                >
-                  {newUserToggle ? "Back to Login" : "Create User"}
-                </button>
-              </div>
-              {errorText ? (
+    <>
+      <Meta title={titleString} />
+      <div className="container">
+        <div className="row">
+          <div className="col-12 mx-auto col-md-12 col-lg-12">
+            <li className="list-group-item my-2">
+              <form>
                 <div className="row">
-                  <li className="list-group-item text-center my-2 mx-auto border-danger col-11 bg-danger text-white">
-                    {errorText}
-                  </li>
+                  <div className="input-group col-12  my-1">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text text-white">
+                        <i className="fas fa-user" />
+                      </div>
+                    </div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder={
+                        newUserToggle ? "Username" : "Username/Email Address"
+                      }
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                    />
+                  </div>
                 </div>
-              ) : (
-                ""
-              )}
-            </form>
-          </li>
+                <div className="row">
+                  <div className="input-group col-12 my-1">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text text-white">
+                        <i className="fas fa-key" />
+                      </div>
+                    </div>
+                    <input
+                      type="password"
+                      className="form-control"
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                </div>
+                {newUserToggle ? (
+                  <>
+                    <div className="row">
+                      <div className="input-group col-12 my-1">
+                        <div className="input-group-prepend">
+                          <div className="input-group-text text-white">
+                            <i className="fas fa-key" />
+                          </div>
+                        </div>
+                        <input
+                          type="password"
+                          className="form-control"
+                          placeholder="Verify Password"
+                          value={passwordVerify}
+                          onChange={(e) => setPasswordVerify(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="input-group col-6  my-1">
+                        <div className="input-group-prepend">
+                          <div className="input-group-text text-white">
+                            <i className="fas fa-id-card" />
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="First Name"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                        />
+                      </div>
+                      <div className="input-group col-6 my-1">
+                        <div className="input-group-prepend">
+                          <div className="input-group-text text-white">
+                            <i className="fas fa-id-card" />
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Last Name"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="input-group col-12 my-1">
+                        <div className="input-group-prepend">
+                          <div className="input-group-text text-white">
+                            <i className="fas fa-at" />
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Email Address"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="input-group col-12 my-1">
+                        <div className="input-group-prepend">
+                          <div className="input-group-text text-white">
+                            <i className="fas fa-at" />
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Verify Email Address"
+                          value={emailVerify}
+                          onChange={(e) => setEmailVerify(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+                <div className="row mx-auto">
+                  <button
+                    type="submit"
+                    onClick={newUserToggle ? createUserHandler : loginHandler}
+                    className="btn submit-button col-5 mr-auto mt-1"
+                  >
+                    {newUserToggle ? "Create" : "Login"}
+                  </button>
+
+                  <button
+                    onClick={toggleNewUserHandler}
+                    className="btn btn-block submit-button col-5 ml-auto mt-1"
+                  >
+                    {newUserToggle ? "Back to Login" : "Create User"}
+                  </button>
+                </div>
+                {errorText ? (
+                  <div className="row">
+                    <li className="list-group-item text-center my-2 mx-auto border-danger col-11 bg-danger text-white">
+                      {errorText}
+                    </li>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </form>
+            </li>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

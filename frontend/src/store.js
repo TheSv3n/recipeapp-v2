@@ -10,6 +10,7 @@ import {
   recipeUserListReducer,
   recipeFavoriteListReducer,
 } from "./reducers/recipeReducers";
+import { pageHeadingReducer } from "./reducers/navBarReducers";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -19,6 +20,7 @@ const reducer = combineReducers({
   recipeInfo: recipeInfoReducer,
   recipeUserList: recipeUserListReducer,
   recipeFavoriteList: recipeFavoriteListReducer,
+  pageHeading: pageHeadingReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

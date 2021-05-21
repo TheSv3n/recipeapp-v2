@@ -5,6 +5,8 @@ import RecipeListItem from "../components/RecipeListItem";
 import UserPageSwitch from "../components/UserPageSwitch";
 import Loader from "../components/Loader";
 import { listUsersRecipes, listUsersFavorites } from "../actions/recipeActions";
+import { updatePageHeading } from "../actions/navBarActions";
+import Meta from "../components/Meta";
 
 const UserRecipesScreen = ({ history }) => {
   const dispatch = useDispatch();
@@ -26,7 +28,6 @@ const UserRecipesScreen = ({ history }) => {
 
   const updateFeed = () => {
     if (showFavorites) {
-      console.log("triggered");
       dispatch(listUsersFavorites(pageFavorites + 1, false));
     } else {
       dispatch(listUsersRecipes(page + 1, false));
@@ -44,8 +45,10 @@ const UserRecipesScreen = ({ history }) => {
     } else {
       if (showFavorites) {
         dispatch(listUsersFavorites(1, false));
+        dispatch(updatePageHeading(`${userInfo.userName}'s saved recipes`));
       } else {
         dispatch(listUsersRecipes(1, false));
+        dispatch(updatePageHeading(`${userInfo.userName}'s recipes`));
       }
     }
   }, [dispatch, showFavorites, userInfo, history]);
@@ -82,21 +85,30 @@ const UserRecipesScreen = ({ history }) => {
         {loading || loadingFavorites ? (
           <Loader />
         ) : (
-          <div className="input-group col-12  my-1 mr-auto mb-5">
-            {(showFavorites && feedFinshedFavorites) ||
-            (!showFavorites && feedFinished) ? (
-              <button className="btn disabled-button mx-3 col-5 mx-auto">
-                No More Recipes
-              </button>
-            ) : (
-              <button
-                onClick={updateFeed}
-                className="btn submit-button mx-3 col-5 mx-auto"
-              >
-                Get more recipes
-              </button>
-            )}
-          </div>
+          <>
+            <Meta
+              title={
+                showFavorites
+                  ? `${userInfo.userName}'s saved recipes - RecipeApp`
+                  : `${userInfo.userName}'s recipes - RecipeApp`
+              }
+            />
+            <div className="input-group col-12  my-1 mr-auto mb-5">
+              {(showFavorites && feedFinshedFavorites) ||
+              (!showFavorites && feedFinished) ? (
+                <button className="btn disabled-button mx-3 col-5 mx-auto">
+                  No More Recipes
+                </button>
+              ) : (
+                <button
+                  onClick={updateFeed}
+                  className="btn submit-button mx-3 col-5 mx-auto"
+                >
+                  Get more recipes
+                </button>
+              )}
+            </div>
+          </>
         )}
       </div>
     </>

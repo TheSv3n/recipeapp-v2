@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
+  const pageHeading = useSelector((state) => state.pageHeading);
+  const { title } = pageHeading;
   return (
     <div className="navbar">
       <div className="mr-auto ml-4 title-text">
@@ -11,7 +14,7 @@ const NavBar = () => {
           </span>
         </Link>
       </div>
-      <div className="mx-auto title-text">Recipe App</div>
+      <div className="mx-auto title-text">{title}</div>
       <div className="ml-auto mr-4 title-text">
         <Link to="/" style={{ textDecoration: "none" }}>
           <span className="nav-icon-span">

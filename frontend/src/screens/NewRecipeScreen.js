@@ -7,8 +7,11 @@ import "../css/NewRecipeScreen.css";
 import { useDispatch, useSelector } from "react-redux";
 import { createRecipe } from "../actions/recipeActions";
 import { RECIPE_CREATE_RESET } from "../constants/recipeConstants";
+import { updatePageHeading } from "../actions/navBarActions";
+import Meta from "../components/Meta";
 
 const NewRecipeScreen = ({ history }) => {
+  const titleString = "Create Recipe - RecipeApp";
   const dispatch = useDispatch();
 
   const [recipeName, setRecipeName] = useState("");
@@ -120,188 +123,192 @@ const NewRecipeScreen = ({ history }) => {
       dispatch({ type: RECIPE_CREATE_RESET });
       history.push(`/recipe/${recipe._id}`);
     }
+    dispatch(updatePageHeading(titleString));
   }, [dispatch, history, userInfo, success, recipe]);
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-12 mx-auto col-md-12 col-lg-12">
-          <ul className="list-group">
-            <li className="list-group-item my-1 my-md-2 my-lg-2 mx-2">
-              <form>
-                <div className="row">
-                  <div className="input-group col-12  my-1 mr-auto">
-                    <div className="input-group-prepend">
-                      <div className="input-group-text text-white">
-                        <i className="fas fa-utensils mr-2" /> Recipe Name
-                      </div>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Recipe Name"
-                      value={recipeName}
-                      onChange={(e) => setRecipeName(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-group col-12  my-1 mr-auto">
-                    <div className="input-group-prepend">
-                      <div className="input-group-text text-white">
-                        <i className="fas fa-info-circle" />
-                      </div>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Description"
-                      value={recipeDescription}
-                      onChange={(e) => setRecipeDescription(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-group col-5  my-1">
-                    <div className="input-group-prepend">
-                      <div className="input-group-text text-white">
-                        <i className="fas fa-tag" />
-                      </div>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Tag"
-                      value={tag}
-                      onChange={(e) => setTag(e.target.value)}
-                    />
-                    <button
-                      className="btn input-button col-4 ml-auto"
-                      onClick={addTempTag}
-                    >
-                      Add Tag
-                    </button>
-                  </div>
-                  <div className="tag-grid">
-                    {tagArray.map((tag) => {
-                      return (
-                        <TempTag
-                          key={tagArray.indexOf(tag)}
-                          index={tagArray.indexOf(tag)}
-                          tag={tag}
-                          removeTempTag={removeTempTag}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="input-group col-7  my-1">
-                    <div className="input-group-prepend">
-                      <div className="input-group-text text-white">
-                        <i className="fas fa-pepper-hot" />
-                      </div>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Ingredient"
-                      value={ingredientName}
-                      onChange={(e) => setIngredientName(e.target.value)}
-                    />
-                  </div>
-                  <div className="input-group col-5  my-1">
-                    <div className="input-group-prepend">
-                      <div className="input-group-text text-white">
-                        <i className="fas fa-balance-scale" />
-                      </div>
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Quantity"
-                      value={ingredientQuantity}
-                      onChange={(e) => setIngredientQuantity(e.target.value)}
-                    />
-                    <button
-                      className="btn input-button col-5 ml-auto"
-                      onClick={addTempIngredient}
-                    >
-                      Add Ingredient
-                    </button>
-                  </div>
-                </div>
-                {ingredientArray.map((ingredient) => {
-                  return (
-                    <TempIngredient
-                      key={ingredientArray.indexOf(ingredient)}
-                      index={ingredientArray.indexOf(ingredient)}
-                      ingredient={ingredient}
-                      removeTempIngredient={removeTempIngredient}
-                    />
-                  );
-                })}
-                <div className="row">
-                  <div className="input-group col-12  my-1 mr-auto">
-                    <textarea
-                      type="text"
-                      className="form-control recipe-area"
-                      placeholder="Directions"
-                      value={directions}
-                      onChange={(e) => setDirections(e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="row d-block my-2">
-                  <div className="input-group col-12 ">
-                    <label for="image-form" className="mr-1 my-auto">
-                      <i className="fas fa-image" /> Add Image
-                    </label>
-                    <input
-                      id="image-form"
-                      type="file"
-                      className="form-file"
-                      onChange={uploadFileHandler}
-                    />
-                    {uploading ? (
-                      <Loader />
-                    ) : (
-                      <div className="d-flex col-6 my-auto">
-                        <div className="d-none d-md-flex d-lg-flex">
-                          {imageName}
-                        </div>
-                        {image === "" ? (
-                          ""
-                        ) : (
-                          <button
-                            className="btn btn-block submit-button col-3 ml-2"
-                            onClick={clearImageHandler}
-                          >
-                            Clear
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-                {loading ? (
-                  <Loader />
-                ) : (
+    <>
+      <Meta title={titleString} />
+      <div className="container">
+        <div className="row">
+          <div className="col-12 mx-auto col-md-12 col-lg-12">
+            <ul className="list-group">
+              <li className="list-group-item my-1 my-md-2 my-lg-2 mx-2">
+                <form>
                   <div className="row">
-                    <button
-                      className="btn submit-button mx-3 col-11 mx-auto"
-                      onClick={handleNewRecipe}
-                    >
-                      Submit
-                    </button>
+                    <div className="input-group col-12  my-1 mr-auto">
+                      <div className="input-group-prepend">
+                        <div className="input-group-text text-white">
+                          <i className="fas fa-utensils mr-2" /> Recipe Name
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Recipe Name"
+                        value={recipeName}
+                        onChange={(e) => setRecipeName(e.target.value)}
+                      />
+                    </div>
                   </div>
-                )}
-              </form>
-            </li>
-          </ul>
+                  <div className="row">
+                    <div className="input-group col-12  my-1 mr-auto">
+                      <div className="input-group-prepend">
+                        <div className="input-group-text text-white">
+                          <i className="fas fa-info-circle" />
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Description"
+                        value={recipeDescription}
+                        onChange={(e) => setRecipeDescription(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-group col-5  my-1">
+                      <div className="input-group-prepend">
+                        <div className="input-group-text text-white">
+                          <i className="fas fa-tag" />
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Tag"
+                        value={tag}
+                        onChange={(e) => setTag(e.target.value)}
+                      />
+                      <button
+                        className="btn input-button col-4 ml-auto"
+                        onClick={addTempTag}
+                      >
+                        Add Tag
+                      </button>
+                    </div>
+                    <div className="tag-grid">
+                      {tagArray.map((tag) => {
+                        return (
+                          <TempTag
+                            key={tagArray.indexOf(tag)}
+                            index={tagArray.indexOf(tag)}
+                            tag={tag}
+                            removeTempTag={removeTempTag}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-group col-7  my-1">
+                      <div className="input-group-prepend">
+                        <div className="input-group-text text-white">
+                          <i className="fas fa-pepper-hot" />
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Ingredient"
+                        value={ingredientName}
+                        onChange={(e) => setIngredientName(e.target.value)}
+                      />
+                    </div>
+                    <div className="input-group col-5  my-1">
+                      <div className="input-group-prepend">
+                        <div className="input-group-text text-white">
+                          <i className="fas fa-balance-scale" />
+                        </div>
+                      </div>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Quantity"
+                        value={ingredientQuantity}
+                        onChange={(e) => setIngredientQuantity(e.target.value)}
+                      />
+                      <button
+                        className="btn input-button col-5 ml-auto"
+                        onClick={addTempIngredient}
+                      >
+                        Add Ingredient
+                      </button>
+                    </div>
+                  </div>
+                  {ingredientArray.map((ingredient) => {
+                    return (
+                      <TempIngredient
+                        key={ingredientArray.indexOf(ingredient)}
+                        index={ingredientArray.indexOf(ingredient)}
+                        ingredient={ingredient}
+                        removeTempIngredient={removeTempIngredient}
+                      />
+                    );
+                  })}
+                  <div className="row">
+                    <div className="input-group col-12  my-1 mr-auto">
+                      <textarea
+                        type="text"
+                        className="form-control recipe-area"
+                        placeholder="Directions"
+                        value={directions}
+                        onChange={(e) => setDirections(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="row d-block my-2">
+                    <div className="input-group col-12 ">
+                      <label for="image-form" className="mr-1 my-auto">
+                        <i className="fas fa-image" /> Add Image
+                      </label>
+                      <input
+                        id="image-form"
+                        type="file"
+                        className="form-file"
+                        onChange={uploadFileHandler}
+                      />
+                      {uploading ? (
+                        <Loader />
+                      ) : (
+                        <div className="d-flex col-6 my-auto">
+                          <div className="d-none d-md-flex d-lg-flex">
+                            {imageName}
+                          </div>
+                          {image === "" ? (
+                            ""
+                          ) : (
+                            <button
+                              className="btn btn-block submit-button col-3 ml-2"
+                              onClick={clearImageHandler}
+                            >
+                              Clear
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  {loading ? (
+                    <Loader />
+                  ) : (
+                    <div className="row">
+                      <button
+                        className="btn submit-button mx-3 col-11 mx-auto"
+                        onClick={handleNewRecipe}
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  )}
+                </form>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
