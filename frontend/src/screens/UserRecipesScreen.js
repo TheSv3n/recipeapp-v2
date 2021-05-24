@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import NewRecipeWidget from "../components/NewRecipeWidget";
 import RecipeListItem from "../components/RecipeListItem";
 import UserPageSwitch from "../components/UserPageSwitch";
+import ProfileInfo from "../components/ProfileInfo";
 import Loader from "../components/Loader";
 import { listUsersRecipes, listUsersFavorites } from "../actions/recipeActions";
 import { updatePageHeading } from "../actions/navBarActions";
@@ -11,7 +12,10 @@ import Meta from "../components/Meta";
 const UserRecipesScreen = ({ history }) => {
   const dispatch = useDispatch();
 
+  const [showProfile, setShowProfile] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
+  const [showMyRecipes, setShowMyRecipes] = useState(true);
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -34,9 +38,32 @@ const UserRecipesScreen = ({ history }) => {
     }
   };
 
-  const handleFavoritesSwitch = (e) => {
+  const handleFavoritesSwitch = (e, option) => {
     e.preventDefault();
-    setShowFavorites(!showFavorites);
+    switch (option) {
+      case 1:
+        //MyRecipes
+        setShowMyRecipes(true);
+        setShowFavorites(false);
+        setShowProfile(false);
+        break;
+      case 2:
+        // Favorites
+        setShowMyRecipes(false);
+        setShowFavorites(true);
+        setShowProfile(false);
+        break;
+      case 3:
+        // Profile
+        setShowMyRecipes(false);
+        setShowFavorites(false);
+        setShowProfile(true);
+        break;
+      default:
+        setShowMyRecipes(true);
+        setShowFavorites(false);
+        setShowProfile(false);
+    }
   };
 
   useEffect(() => {
@@ -45,13 +72,15 @@ const UserRecipesScreen = ({ history }) => {
     } else {
       if (showFavorites) {
         dispatch(listUsersFavorites(1, false));
-        dispatch(updatePageHeading(`${userInfo.userName}'s saved recipes`));
-      } else {
+        dispatch(updatePageHeading(`${userInfo.userName}'s Saved Recipes`));
+      } else if (showMyRecipes) {
         dispatch(listUsersRecipes(1, false));
-        dispatch(updatePageHeading(`${userInfo.userName}'s recipes`));
+        dispatch(updatePageHeading(`${userInfo.userName}'s Recipes`));
+      } else {
+        dispatch(updatePageHeading(`${userInfo.userName}'s Profile`));
       }
     }
-  }, [dispatch, showFavorites, userInfo, history]);
+  }, [dispatch, showFavorites, showMyRecipes, userInfo, history]);
 
   return (
     <>
@@ -64,50 +93,62 @@ const UserRecipesScreen = ({ history }) => {
             <UserPageSwitch
               handleFavoritesSwitch={handleFavoritesSwitch}
               showFavorites={showFavorites}
+              showMyRecipes={showMyRecipes}
+              showProfile={showProfile}
             />
           </div>
         </div>
       </div>
 
-      <section className="recipe-list">
-        {showFavorites
-          ? recipesFavorites &&
-            recipesFavorites.map((recipe) => {
-              return <RecipeListItem key={recipe.id} recipe={recipe} />;
-            })
-          : recipes &&
-            recipes.map((recipe) => {
-              return <RecipeListItem key={recipe.id} recipe={recipe} />;
-            })}
-      </section>
+      {showProfile ? (
+        <ProfileInfo />
+      ) : (
+        <section className="recipe-list">
+          {showFavorites
+            ? recipesFavorites &&
+              recipesFavorites.map((recipe) => {
+                return <RecipeListItem key={recipe.id} recipe={recipe} />;
+              })
+            : recipes &&
+              recipes.map((recipe) => {
+                return <RecipeListItem key={recipe.id} recipe={recipe} />;
+              })}
+        </section>
+      )}
 
       <div className="container">
-        {loading || loadingFavorites ? (
+        {loading || loadingFavorites || !userInfo ? (
           <Loader />
         ) : (
           <>
             <Meta
               title={
-                showFavorites
+                showProfile
+                  ? `${userInfo.userName}'s Profile - RecipeApp`
+                  : showFavorites
                   ? `${userInfo.userName}'s saved recipes - RecipeApp`
                   : `${userInfo.userName}'s recipes - RecipeApp`
               }
             />
-            <div className="input-group col-12  my-1 mr-auto mb-5">
-              {(showFavorites && feedFinshedFavorites) ||
-              (!showFavorites && feedFinished) ? (
-                <button className="btn disabled-button mx-3 col-5 mx-auto">
-                  No More Recipes
-                </button>
-              ) : (
-                <button
-                  onClick={updateFeed}
-                  className="btn submit-button mx-3 col-5 mx-auto"
-                >
-                  Get more recipes
-                </button>
-              )}
-            </div>
+            {showProfile ? (
+              ""
+            ) : (
+              <div className="input-group col-12  my-1 mr-auto mb-5">
+                {(showFavorites && feedFinshedFavorites) ||
+                (!showFavorites && feedFinished) ? (
+                  <button className="btn disabled-button mx-3 col-5 mx-auto">
+                    No More Recipes
+                  </button>
+                ) : (
+                  <button
+                    onClick={updateFeed}
+                    className="btn submit-button mx-3 col-5 mx-auto"
+                  >
+                    Get more recipes
+                  </button>
+                )}
+              </div>
+            )}
           </>
         )}
       </div>
