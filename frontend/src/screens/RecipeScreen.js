@@ -101,9 +101,12 @@ const RecipeScreen = ({ match }) => {
     if (!recipe || recipe._id !== recipeId) {
       dispatch(getRecipeInfo(recipeId));
     } else {
-      checkUserRating(recipe.ratings, userInfo._id);
+      if (userInfo) {
+        checkUserRating(recipe.ratings, userInfo._id);
+        checkUserFavorite(recipe.followedBy, userInfo._id);
+      }
+
       countRatings(recipe.ratings);
-      checkUserFavorite(recipe.followedBy, userInfo._id);
       setFavoriteCount(recipe.followedBy.length);
       getUserName(recipe.creator);
     }

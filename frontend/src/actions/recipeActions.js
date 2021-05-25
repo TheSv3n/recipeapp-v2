@@ -124,17 +124,7 @@ export const getRecipeInfo = (recipeId) => async (dispatch, getState) => {
       type: RECIPE_DETAILS_REQUEST,
     });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.get(`/api/recipes/${recipeId}`, config);
+    const { data } = await axios.get(`/api/recipes/${recipeId}`);
 
     dispatch({
       type: RECIPE_DETAILS_SUCCESS,
