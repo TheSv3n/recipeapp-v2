@@ -30,6 +30,7 @@ export const recipeListReducer = (state = { recipes: [] }, action) => {
         recipes: action.payload.recipes,
         pages: action.payload.pages,
         page: action.payload.page,
+        count: action.payload.count,
         feedFinished: action.payload.feedFinished,
       };
     case RECIPE_LIST_FAIL:

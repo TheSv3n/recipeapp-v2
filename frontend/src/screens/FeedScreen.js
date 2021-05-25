@@ -23,7 +23,7 @@ const FeedScreen = ({ match }) => {
   const { userInfo } = userLogin;
 
   const recipeList = useSelector((state) => state.recipeList);
-  const { loading, recipes, page, feedFinished } = recipeList;
+  const { loading, recipes, page, feedFinished, count } = recipeList;
 
   const updateFeed = () => {
     dispatch(listRecipes(page + 1, searchKeyword, showTopRated));
@@ -41,7 +41,7 @@ const FeedScreen = ({ match }) => {
   useEffect(() => {
     if (searchString) {
       setSearchKeyword(searchString);
-      dispatch(listRecipes(1, searchKeyword, showTopRated));
+      dispatch(listRecipes(1, searchString, showTopRated));
       setSearchActive(true);
     } else {
       dispatch(listRecipes(1, searchKeyword, showTopRated));
@@ -62,7 +62,7 @@ const FeedScreen = ({ match }) => {
                 <LoginWidget message="Login to Post Recipes" />
               )}
               <SearchWidget
-                recipes={recipes}
+                count={count}
                 updateSearch={updateSearch}
                 searchActive={searchActive}
                 searchStringFromLink={searchString}

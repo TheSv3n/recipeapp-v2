@@ -12,11 +12,11 @@ const Comment = ({ comment }) => {
     }
     return i;
   }
-  var dateString = `${
-    days[dateTime.getDay()]
-  } ${dateTime.getDate()}/${dateTime.getMonth()}/${dateTime.getFullYear()} - ${addZero(
-    dateTime.getHours()
-  )}:${addZero(dateTime.getMinutes())}`;
+  var dateString = `${days[dateTime.getDay()]} ${dateTime.getDate()}/${
+    dateTime.getMonth() + 1
+  }/${dateTime.getFullYear()} - ${addZero(dateTime.getHours())}:${addZero(
+    dateTime.getMinutes()
+  )}`;
 
   const getUserName = async (userId) => {
     const { data: userName } = await axios.get(`/api/users/${userId}/username`);

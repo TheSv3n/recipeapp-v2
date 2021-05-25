@@ -61,7 +61,7 @@ const getAllRecipes = asyncHandler(async (req, res) => {
     .sort(ranked === "true" ? { rating: -1 } : { createdAt: -1 })
     .limit(pageSize)
     .skip(pageSize * (page - 1));
-  res.json({ recipes, page, pages: Math.ceil(count / pageSize) });
+  res.json({ recipes, page, pages: Math.ceil(count / pageSize), count });
 });
 
 //@desc Fetch Recipe

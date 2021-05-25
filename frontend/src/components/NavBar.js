@@ -25,7 +25,7 @@ const NavBar = () => {
         <Link to="/userrecipes" style={{ textDecoration: "none" }}>
           <span className="nav-icon-span">
             {" "}
-            <i className="fas fa-utensils"></i>
+            <i className="fas fa-user"></i>
           </span>
         </Link>
       </div>

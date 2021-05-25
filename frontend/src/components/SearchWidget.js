@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 
 const SearchWidget = ({
-  recipes,
+  count,
   updateSearch,
   searchActive,
   searchStringFromLink,
@@ -81,7 +81,7 @@ const SearchWidget = ({
           <div className="container">
             <div className="row">
               <div className="mx-auto">
-                Returned {recipes && recipes.length} results -{" "}
+                Returned {count} results -{" "}
                 <button className="btn submit-button" onClick={clearSearch}>
                   clear
                 </button>

@@ -67,6 +67,7 @@ export const listRecipes =
         recipes: tempRecipes,
         page: data.page,
         pages: data.pages,
+        count: data.count,
         feedFinished: feedFinished,
       };
       dispatch({
