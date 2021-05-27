@@ -13,6 +13,7 @@ import {
 } from "../actions/recipeActions";
 import "../css/RecipeScreen.css";
 import Meta from "../components/Meta";
+import { Link } from "react-router-dom";
 
 const RecipeScreen = ({ match }) => {
   const dispatch = useDispatch();
@@ -139,7 +140,10 @@ const RecipeScreen = ({ match }) => {
                 </div>
                 <div className="row">
                   <div className="recipe-description mx-auto">
-                    Uploaded by {recipe && userName}
+                    Uploaded by{" "}
+                    {recipe && (
+                      <Link to={`/user/${recipe.creator}`}>{userName}</Link>
+                    )}
                   </div>
                 </div>
                 <div className="row recipe-heading">Tags</div>

@@ -290,7 +290,7 @@ export const addRecipeComment =
   };
 
 export const listUsersRecipes =
-  (newPage, showRanked) => async (dispatch, getState) => {
+  (newPage, showRanked, userId) => async (dispatch, getState) => {
     try {
       if (newPage === 1) {
         dispatch({ type: RECIPE_USERLIST_REQUEST });
@@ -306,7 +306,9 @@ export const listUsersRecipes =
       } = getState();
 
       const { data } = await axios.get(
-        `/api/recipes/user/${userInfo._id}?pageNumber=${newPage}&ranked=${showRanked}`
+        `/api/recipes/user/${
+          userId ? userId : userInfo._id
+        }?pageNumber=${newPage}&ranked=${showRanked}`
       );
 
       let tempRecipes;

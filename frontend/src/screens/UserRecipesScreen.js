@@ -72,12 +72,12 @@ const UserRecipesScreen = ({ history }) => {
     } else {
       if (showFavorites) {
         dispatch(listUsersFavorites(1, false));
-        dispatch(updatePageHeading(`${userInfo.userName}'s Saved Recipes`));
+        dispatch(updatePageHeading(`My Saved Recipes`));
       } else if (showMyRecipes) {
         dispatch(listUsersRecipes(1, false));
-        dispatch(updatePageHeading(`${userInfo.userName}'s Recipes`));
+        dispatch(updatePageHeading(`My Recipes`));
       } else {
-        dispatch(updatePageHeading(`${userInfo.userName}'s Profile`));
+        dispatch(updatePageHeading(`My Profile`));
       }
     }
   }, [dispatch, showFavorites, showMyRecipes, userInfo, history]);
@@ -124,10 +124,10 @@ const UserRecipesScreen = ({ history }) => {
             <Meta
               title={
                 showProfile
-                  ? `${userInfo.userName}'s Profile - RecipeApp`
+                  ? `My Profile - RecipeApp`
                   : showFavorites
-                  ? `${userInfo.userName}'s saved recipes - RecipeApp`
-                  : `${userInfo.userName}'s recipes - RecipeApp`
+                  ? `My saved recipes - RecipeApp`
+                  : `My recipes - RecipeApp`
               }
             />
             {showProfile ? (
