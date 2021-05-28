@@ -1,18 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const NavBar = () => {
+  const history = useHistory();
   const pageHeading = useSelector((state) => state.pageHeading);
   const { title } = pageHeading;
   return (
     <div className="navbar">
       <div className="mr-auto ml-4 title-text">
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="nav-icon-span">
-            <i className="far fa-arrow-alt-circle-left" />
-          </span>
-        </Link>
+        <span className="nav-icon-span" onClick={history.goBack}>
+          <i className="far fa-arrow-alt-circle-left" />
+        </span>
       </div>
       <div className="mx-auto title-text">{title}</div>
       <div className="ml-auto mr-4 title-text">

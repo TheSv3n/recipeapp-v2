@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import RecipeListItem from "../components/RecipeListItem";
 import UserScreenSwitch from "../components/UserScreenSwitch";
+import UserScreenProfile from "../components/UserScreenProfile";
 import Loader from "../components/Loader";
 import { listUsersRecipes } from "../actions/recipeActions";
 import { updatePageHeading } from "../actions/navBarActions";
@@ -12,7 +13,7 @@ const UserScreen = ({ match }) => {
   const dispatch = useDispatch();
   const userId = match.params.id;
 
-  const [showProfile, setShowProfile] = useState(false);
+  const [showProfile, setShowProfile] = useState(true);
   const [userName, setUserName] = useState("");
 
   const recipeUserList = useSelector((state) => state.recipeUserList);
@@ -29,7 +30,7 @@ const UserScreen = ({ match }) => {
   };
 
   const updateFeed = () => {
-    //TODO
+    dispatch(listUsersRecipes(page + 1, false, userId));
   };
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const UserScreen = ({ match }) => {
       </div>
 
       {showProfile ? (
-        <div>Profile</div>
+        <UserScreenProfile userId={userId} />
       ) : (
         <section className="recipe-list">
           {recipes &&

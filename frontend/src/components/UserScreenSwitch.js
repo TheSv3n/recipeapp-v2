@@ -12,18 +12,18 @@ const UserScreenSwitch = ({ showProfile, handleProfileSwitch }) => {
                 <button
                   type="submit"
                   className={`btn left-button switch-button ${
-                    showProfile ? "switch-inactive" : ""
-                  } col-4 col-md-2 col-lg-3`}
-                >
-                  Recipes
-                </button>
-                <button
-                  type="submit"
-                  className={`btn right-button switch-button ${
                     showProfile ? "" : "switch-inactive"
                   } col-4 col-md-2 col-lg-3`}
                 >
                   Profile
+                </button>
+                <button
+                  type="submit"
+                  className={`btn right-button switch-button ${
+                    showProfile ? "switch-inactive" : ""
+                  } col-4 col-md-2 col-lg-3`}
+                >
+                  Recipes
                 </button>
               </div>
             </>

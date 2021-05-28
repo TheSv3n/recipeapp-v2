@@ -56,24 +56,7 @@ const ProfileInfo = () => {
                       />
                     </div>
                   </div>
-                  {/*<div className="row">
-				  <div className="input-group col-12 my-1">
-					<div className="input-group-prepend">
-					  <div className="input-group-text bg-primary text-white">
-						<i className="fas fa-key mr-3" />
-						Password
-					  </div>
-					</div>
-					<input
-					  type="password"
-					  className="form-control"
-					  placeholder="Password"
-					  value={value.userDetails.password}
-					/>
-				  </div>
-				</div>
-	*/}
-                  <React.Fragment>
+                  <>
                     <div className="row">
                       <div className="input-group col-6  my-1">
                         <div className="input-group-prepend">
@@ -120,7 +103,7 @@ const ProfileInfo = () => {
                         />
                       </div>
                     </div>
-                  </React.Fragment>
+                  </>
                   <div className="row">
                     <div className="input-group col-12 my-1">
                       <button
@@ -129,15 +112,6 @@ const ProfileInfo = () => {
                       >
                         Log Out
                       </button>
-                      {/*value.errorView ? (
-				<div className="row">
-				  <li className="list-group-item text-center my-2 mx-auto border-danger col-11 bg-danger text-white">
-					{value.errorText}
-				  </li>
-				</div>
-			  ) : (
-				""
-			  )*/}
                     </div>
                   </div>
                 </form>
