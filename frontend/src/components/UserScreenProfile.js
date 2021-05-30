@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
-import { getUserDetails } from "../actions/userActions";
+import { getUserDetailsById } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
+import LoginWidget from "../components/LoginWidget";
 import Loader from "../components/Loader";
 
 const UserScreenProfile = ({ userId }) => {
   const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
@@ -12,7 +16,7 @@ const UserScreenProfile = ({ userId }) => {
   const handleFollow = () => {};
 
   useEffect(() => {
-    dispatch(getUserDetails(userId));
+    dispatch(getUserDetailsById(userId));
   }, [dispatch, userId]);
 
   return (
@@ -57,14 +61,18 @@ const UserScreenProfile = ({ userId }) => {
                     </div>
                   </>
                   <div className="row">
-                    <div className="input-group col-5 my-1">
-                      <button
-                        className="btn btn-block btn-danger mx-3 mt-1"
-                        onClick={handleFollow}
-                      >
-                        Follow User
-                      </button>
-                    </div>
+                    {userInfo ? (
+                      <div className="input-group col-5 my-1">
+                        <button
+                          className="btn btn-block btn-danger mx-3 mt-1"
+                          onClick={handleFollow}
+                        >
+                          Follow User
+                        </button>
+                      </div>
+                    ) : (
+                      <LoginWidget message="Log in to Follow Users" />
+                    )}
                   </div>
                 </form>
               </li>
