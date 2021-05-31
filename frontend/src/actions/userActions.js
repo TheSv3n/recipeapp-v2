@@ -12,6 +12,9 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
+  USER_PROFILE_FAIL,
+  USER_PROFILE_SUCCESS,
+  USER_PROFILE_REQUEST,
 } from "../constants/userConstants";
 
 export const login = (userName, password) => async (dispatch) => {
@@ -97,10 +100,10 @@ export const registerUser =
     }
   };
 
-export const getUserDetails = (id) => async (dispatch, getState) => {
+export const getUserProfile = () => async (dispatch, getState) => {
   try {
     dispatch({
-      type: USER_DETAILS_REQUEST,
+      type: USER_PROFILE_REQUEST,
     });
 
     const {
@@ -114,15 +117,15 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/users/${id}`, config);
+    const { data } = await axios.get(`/api/users/`, config);
 
     dispatch({
-      type: USER_DETAILS_SUCCESS,
+      type: USER_PROFILE_SUCCESS,
       payload: data,
     });
   } catch (error) {
     dispatch({
-      type: USER_DETAILS_FAIL,
+      type: USER_PROFILE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

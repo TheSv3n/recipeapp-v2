@@ -92,9 +92,13 @@ const getUsername = asyncHandler(async (req, res) => {
 
 //@desc Get user by ID
 //@route GET /api/users/:id
-//@access Private
+//@access Public
 const getUserById = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select("-password");
+  const user = await User.findById(req.params.id).select({
+    userName: 1,
+    name: 1,
+    isAdmin: 1,
+  });
   if (user) {
     res.json(user);
   } else {
@@ -103,4 +107,17 @@ const getUserById = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, authUser, getUsername, getUserById };
+//@desc Get user profile
+//@route GET /api/users/
+//@access Private
+const getUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (user) {
+    res.json(user);
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+export { registerUser, authUser, getUsername, getUserById, getUserProfile };

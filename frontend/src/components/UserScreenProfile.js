@@ -60,21 +60,19 @@ const UserScreenProfile = ({ userId }) => {
                       </div>
                     </div>
                   </>
-                  <div className="row">
-                    {userInfo ? (
-                      <div className="input-group col-5 my-1">
-                        <button
-                          className="btn btn-block btn-danger mx-3 mt-1"
-                          onClick={handleFollow}
-                        >
-                          Follow User
-                        </button>
-                      </div>
-                    ) : (
-                      <LoginWidget message="Log in to Follow Users" />
-                    )}
-                  </div>
                 </form>
+                <div className="row">
+                  {userInfo ? (
+                    <button
+                      className="btn btn-block btn-danger mx-3 mt-1"
+                      onClick={handleFollow}
+                    >
+                      Follow User
+                    </button>
+                  ) : (
+                    <LoginWidget message="Log in to Follow Users" />
+                  )}
+                </div>
               </li>
             </div>
           </div>

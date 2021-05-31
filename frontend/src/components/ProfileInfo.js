@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router";
-import { getUserDetails, logout } from "../actions/userActions";
+import { getUserProfile, logout } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 
@@ -10,15 +10,15 @@ const ProfileInfo = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userDetails = useSelector((state) => state.userDetails);
-  const { loading, error, user } = userDetails;
+  const userProfile = useSelector((state) => state.userProfile);
+  const { loading, error, user } = userProfile;
 
   useEffect(() => {
     if (!userInfo) {
       history.push("/login");
     } else {
       if (!user) {
-        dispatch(getUserDetails(userInfo._id));
+        dispatch(getUserProfile());
       }
     }
   }, [dispatch, userInfo, user, history]);
