@@ -15,6 +15,12 @@ import {
   USER_PROFILE_FAIL,
   USER_PROFILE_SUCCESS,
   USER_PROFILE_REQUEST,
+  USER_ADD_FOLLOWER_REQUEST,
+  USER_ADD_FOLLOWER_SUCCESS,
+  USER_ADD_FOLLOWER_FAIL,
+  USER_REMOVE_FOLLOWER_REQUEST,
+  USER_REMOVE_FOLLOWER_SUCCESS,
+  USER_REMOVE_FOLLOWER_FAIL,
 } from "../constants/userConstants";
 
 export const login = (userName, password) => async (dispatch) => {
@@ -149,6 +155,74 @@ export const getUserDetailsById = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const addUserFollower = (userId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_ADD_FOLLOWER_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.put(`/api/users/${userId}/addfollower`, {}, config);
+
+    dispatch({
+      type: USER_ADD_FOLLOWER_SUCCESS,
+    });
+    dispatch(getUserDetailsById(userId));
+  } catch (error) {
+    dispatch({
+      type: USER_ADD_FOLLOWER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const removeUserFollower = (userId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_REMOVE_FOLLOWER_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.put(`/api/users/${userId}/removefollower`, {}, config);
+
+    dispatch({
+      type: USER_REMOVE_FOLLOWER_SUCCESS,
+    });
+    dispatch(getUserDetailsById(userId));
+  } catch (error) {
+    dispatch({
+      type: USER_REMOVE_FOLLOWER_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

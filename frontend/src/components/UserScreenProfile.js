@@ -1,11 +1,16 @@
-import React, { useEffect } from "react";
-import { getUserDetailsById } from "../actions/userActions";
+import React, { useEffect, useState } from "react";
+import {
+  getUserDetailsById,
+  addUserFollower,
+  removeUserFollower,
+} from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import LoginWidget from "../components/LoginWidget";
 import Loader from "../components/Loader";
 
 const UserScreenProfile = ({ userId }) => {
   const dispatch = useDispatch();
+  const [userFollowing, setUserFollowing] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -13,20 +18,40 @@ const UserScreenProfile = ({ userId }) => {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
-  const handleFollow = () => {};
+  const setFollowing = () => {
+    if (!userFollowing) {
+      dispatch(addUserFollower(userId));
+    } else {
+      dispatch(removeUserFollower(userId));
+    }
+  };
+
+  const checkUserFollowing = (followedBy, userId) => {
+    if (followedBy.length === 0) {
+      setUserFollowing(false);
+    } else {
+      for (let i = 0; i < followedBy.length; i++) {
+        if (followedBy[i] === userId) {
+          setUserFollowing(true);
+        }
+      }
+    }
+  };
 
   useEffect(() => {
-    dispatch(getUserDetailsById(userId));
-    if (userInfo) {
+    if (!user || user._id !== userId) {
+      dispatch(getUserDetailsById(userId));
+    } else {
+      if (userInfo && user) {
+        checkUserFollowing(user.followedBy, userInfo._id);
+      }
     }
-  }, [dispatch, userId, userInfo]);
+  }, [dispatch, userId, userInfo, user]);
 
   return (
     <div className="container">
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <div>{error}</div>
+      {error ? (
+        <div>error</div>
       ) : (
         user && (
           <div className="row">
@@ -64,20 +89,32 @@ const UserScreenProfile = ({ userId }) => {
                   </>
                 </form>
                 <div className="row">
-                  {userInfo ? (
-                    userInfo._id === userId ? (
-                      ""
+                  <div className="container col-12">
+                    {userInfo ? (
+                      userInfo._id === userId ? (
+                        ""
+                      ) : loading ? (
+                        <Loader />
+                      ) : (
+                        <button
+                          className="btn submit-button col-5 mx-auto"
+                          onClick={setFollowing}
+                        >
+                          {userFollowing ? (
+                            <div>
+                              Unfollow User <i class="fas fa-user-minus"></i>
+                            </div>
+                          ) : (
+                            <div>
+                              Follow User <i class="fas fa-user-plus"></i>
+                            </div>
+                          )}
+                        </button>
+                      )
                     ) : (
-                      <button
-                        className="btn btn-block btn-danger mx-3 mt-1"
-                        onClick={handleFollow}
-                      >
-                        Follow User
-                      </button>
-                    )
-                  ) : (
-                    <LoginWidget message="Log in to Follow Users" />
-                  )}
+                      <LoginWidget message="Log in to Follow Users" />
+                    )}
+                  </div>
                 </div>
               </li>
             </div>
