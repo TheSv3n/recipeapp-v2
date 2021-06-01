@@ -17,7 +17,9 @@ const UserScreenProfile = ({ userId }) => {
 
   useEffect(() => {
     dispatch(getUserDetailsById(userId));
-  }, [dispatch, userId]);
+    if (userInfo) {
+    }
+  }, [dispatch, userId, userInfo]);
 
   return (
     <div className="container">
@@ -63,12 +65,16 @@ const UserScreenProfile = ({ userId }) => {
                 </form>
                 <div className="row">
                   {userInfo ? (
-                    <button
-                      className="btn btn-block btn-danger mx-3 mt-1"
-                      onClick={handleFollow}
-                    >
-                      Follow User
-                    </button>
+                    userInfo._id === userId ? (
+                      ""
+                    ) : (
+                      <button
+                        className="btn btn-block btn-danger mx-3 mt-1"
+                        onClick={handleFollow}
+                      >
+                        Follow User
+                      </button>
+                    )
                   ) : (
                     <LoginWidget message="Log in to Follow Users" />
                   )}

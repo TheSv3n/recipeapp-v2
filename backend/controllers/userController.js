@@ -25,8 +25,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email: email.toLowerCase(),
     password,
     userNameLower: userName.toLowerCase(),
-    followedUsers: [],
-    followedRecipes: [],
+    followedBy: [],
   });
 
   if (user) {
@@ -98,6 +97,7 @@ const getUserById = asyncHandler(async (req, res) => {
     userName: 1,
     name: 1,
     isAdmin: 1,
+    followedBy: 1,
   });
   if (user) {
     res.json(user);
@@ -120,4 +120,48 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, authUser, getUsername, getUserById, getUserProfile };
+//@desc Update user follow list - add follower
+//@route PUT /api/users/:id/addfollower
+//@access Private
+const addUserFollower = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    let tempFollowers = [...user.followedBy, req.user._id];
+    user.followedBy = tempFollowers;
+    const updatedUser = await user.save();
+    res.json(updatedUser);
+  } else {
+    res.status(404);
+    throw new Error("User not Found");
+  }
+});
+
+//@desc Update user follow list - remove follower
+//@route PUT /api/users/:id/removefollow
+//@access Private
+const removeUserFollower = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (user) {
+    let tempFollowers = [...user.followedBy];
+    let index = tempFollowers.indexOf(req.user._id);
+    tempFollowers.splice(index, 1);
+    user.followedBy = tempFollowers;
+    const updatedUser = await user.save();
+    res.json(updatedUser);
+  } else {
+    res.status(404);
+    throw new Error("User not Found");
+  }
+});
+
+export {
+  registerUser,
+  authUser,
+  getUsername,
+  getUserById,
+  getUserProfile,
+  addUserFollower,
+  removeUserFollower,
+};

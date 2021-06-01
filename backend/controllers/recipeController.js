@@ -212,8 +212,8 @@ const addRecipeFollower = asyncHandler(async (req, res) => {
   }
 });
 
-//@desc Update recipe follow list - add follower
-//@route PUT /api/recipes/:id/addfollower
+//@desc Update recipe follow list - remove follower
+//@route PUT /api/recipes/:id/remove
 //@access Private
 const removeRecipeFollower = asyncHandler(async (req, res) => {
   const recipe = await Recipe.findById(req.params.id);

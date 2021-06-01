@@ -6,6 +6,8 @@ import {
   getUsername,
   getUserById,
   getUserProfile,
+  addUserFollower,
+  removeUserFollower,
 } from "../controllers/userController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 
@@ -13,5 +15,7 @@ router.route("/").post(registerUser).get(protect, getUserProfile);
 router.route("/login").post(authUser);
 router.route("/:id/username").get(getUsername);
 router.route("/:id").get(getUserById);
+router.route("/:id/addfollower").put(protect, addUserFollower);
+router.route("/:id/removefollower").put(protect, removeUserFollower);
 
 export default router;
