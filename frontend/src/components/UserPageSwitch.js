@@ -5,6 +5,7 @@ const UserPageSwitch = ({
   showFavorites,
   showMyRecipes,
   showProfile,
+  showFollowing,
 }) => {
   return (
     <div className="switch-container my-1 my-md-2 my-lg-2 mx-2">
@@ -33,10 +34,19 @@ const UserPageSwitch = ({
                 </button>
                 <button
                   type="submit"
+                  className={`btn middle-button switch-button ${
+                    showFollowing ? "" : "switch-inactive"
+                  } col-4 col-md-2 col-lg-3`}
+                  onClick={(e) => handleFavoritesSwitch(e, 3)}
+                >
+                  Followed Users
+                </button>
+                <button
+                  type="submit"
                   className={`btn right-button switch-button ${
                     showProfile ? "" : "switch-inactive"
                   } col-4 col-md-2 col-lg-3`}
-                  onClick={(e) => handleFavoritesSwitch(e, 3)}
+                  onClick={(e) => handleFavoritesSwitch(e, 4)}
                 >
                   Profile
                 </button>

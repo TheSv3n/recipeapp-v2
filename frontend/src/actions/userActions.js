@@ -21,6 +21,10 @@ import {
   USER_REMOVE_FOLLOWER_REQUEST,
   USER_REMOVE_FOLLOWER_SUCCESS,
   USER_REMOVE_FOLLOWER_FAIL,
+  USER_FOLLOWING_REQUEST,
+  USER_FOLLOWING_UPDATE_REQUEST,
+  USER_FOLLOWING_SUCCESS,
+  USER_FOLLOWING_FAIL,
 } from "../constants/userConstants";
 
 export const login = (userName, password) => async (dispatch) => {
@@ -223,6 +227,68 @@ export const removeUserFollower = (userId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_REMOVE_FOLLOWER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const listFollowedUsers = (newPage) => async (dispatch, getState) => {
+  try {
+    if (newPage === 1) {
+      dispatch({ type: USER_FOLLOWING_REQUEST });
+    } else {
+      dispatch({ type: USER_FOLLOWING_UPDATE_REQUEST });
+    }
+    const {
+      userFollowingList: { users: usersOld },
+    } = getState();
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `/api/users/followed?pageNumber=${newPage}`,
+      config
+    );
+
+    let tempUsers;
+
+    if (newPage === 1) {
+      tempUsers = [...data.users];
+    } else {
+      tempUsers = [...usersOld, ...data.users];
+    }
+
+    let feedFinished = false;
+
+    if (data.page === data.pages) {
+      feedFinished = true;
+    }
+
+    const newPayload = {
+      users: tempUsers,
+      page: data.page,
+      pages: data.pages,
+      feedFinished: feedFinished,
+    };
+    dispatch({
+      type: USER_FOLLOWING_SUCCESS,
+      payload: newPayload,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_FOLLOWING_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -7,6 +7,7 @@ import {
   userRegisterReducer,
   userDetailsReducer,
   userProfileReducer,
+  userFollowingListReducer,
 } from "./reducers/userReducers";
 import {
   recipeListReducer,
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   userProfile: userProfileReducer,
+  userFollowingList: userFollowingListReducer,
   recipeList: recipeListReducer,
   recipeCreate: recipeCreateReducer,
   recipeInfo: recipeInfoReducer,

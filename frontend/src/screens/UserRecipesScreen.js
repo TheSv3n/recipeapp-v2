@@ -5,7 +5,9 @@ import RecipeListItem from "../components/RecipeListItem";
 import UserPageSwitch from "../components/UserPageSwitch";
 import ProfileInfo from "../components/ProfileInfo";
 import Loader from "../components/Loader";
+import UserScreenProfile from "../components/UserScreenProfile";
 import { listUsersRecipes, listUsersFavorites } from "../actions/recipeActions";
+import { listFollowedUsers } from "../actions/userActions";
 import { updatePageHeading } from "../actions/navBarActions";
 import Meta from "../components/Meta";
 
@@ -14,6 +16,7 @@ const UserRecipesScreen = ({ history }) => {
 
   const [showProfile, setShowProfile] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
+  const [showFollowing, setShowFollowing] = useState(false);
   const [showMyRecipes, setShowMyRecipes] = useState(true);
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -30,6 +33,14 @@ const UserRecipesScreen = ({ history }) => {
     feedFinished: feedFinshedFavorites,
   } = recipeFavoriteList;
 
+  const userFollowingList = useSelector((state) => state.userFollowingList);
+  const {
+    loading: loadingFollowed,
+    users: usersFollowed,
+    page: pageFollowed,
+    feedFinished: feedFinshedFollowed,
+  } = userFollowingList;
+
   const updateFeed = () => {
     if (showFavorites) {
       dispatch(listUsersFavorites(pageFavorites + 1, false));
@@ -45,23 +56,34 @@ const UserRecipesScreen = ({ history }) => {
         //MyRecipes
         setShowMyRecipes(true);
         setShowFavorites(false);
+        setShowFollowing(false);
         setShowProfile(false);
         break;
       case 2:
         // Favorites
         setShowMyRecipes(false);
         setShowFavorites(true);
+        setShowFollowing(false);
         setShowProfile(false);
         break;
       case 3:
+        // Followed Users
+        setShowMyRecipes(false);
+        setShowFavorites(false);
+        setShowFollowing(true);
+        setShowProfile(false);
+        break;
+      case 4:
         // Profile
         setShowMyRecipes(false);
         setShowFavorites(false);
+        setShowFollowing(false);
         setShowProfile(true);
         break;
       default:
         setShowMyRecipes(true);
         setShowFavorites(false);
+        setShowFollowing(false);
         setShowProfile(false);
     }
   };
@@ -76,11 +98,21 @@ const UserRecipesScreen = ({ history }) => {
       } else if (showMyRecipes) {
         dispatch(listUsersRecipes(1, false));
         dispatch(updatePageHeading(`My Recipes`));
+      } else if (showFollowing) {
+        dispatch(updatePageHeading(`My Followed Users`));
+        dispatch(listFollowedUsers(1));
       } else {
         dispatch(updatePageHeading(`My Profile`));
       }
     }
-  }, [dispatch, showFavorites, showMyRecipes, userInfo, history]);
+  }, [
+    dispatch,
+    showFavorites,
+    showMyRecipes,
+    showFollowing,
+    userInfo,
+    history,
+  ]);
 
   return (
     <>
@@ -94,6 +126,7 @@ const UserRecipesScreen = ({ history }) => {
               handleFavoritesSwitch={handleFavoritesSwitch}
               showFavorites={showFavorites}
               showMyRecipes={showMyRecipes}
+              showFollowing={showFollowing}
               showProfile={showProfile}
             />
           </div>
@@ -109,9 +142,14 @@ const UserRecipesScreen = ({ history }) => {
               recipesFavorites.map((recipe) => {
                 return <RecipeListItem key={recipe.id} recipe={recipe} />;
               })
-            : recipes &&
+            : showMyRecipes
+            ? recipes &&
               recipes.map((recipe) => {
                 return <RecipeListItem key={recipe.id} recipe={recipe} />;
+              })
+            : usersFollowed &&
+              usersFollowed.map((user) => {
+                return <UserScreenProfile userId={user._id} />;
               })}
         </section>
       )}
@@ -127,15 +165,19 @@ const UserRecipesScreen = ({ history }) => {
                   ? `My Profile - RecipeApp`
                   : showFavorites
                   ? `My saved recipes - RecipeApp`
+                  : showFollowing
+                  ? "My Followed Users - RecipeApp"
                   : `My recipes - RecipeApp`
               }
             />
             {showProfile ? (
               ""
+            ) : showFollowing ? (
+              ""
             ) : (
               <div className="input-group col-12  my-1 mr-auto mb-5">
                 {(showFavorites && feedFinshedFavorites) ||
-                (!showFavorites && feedFinished) ? (
+                (showMyRecipes && feedFinished) ? (
                   <button className="btn disabled-button mx-3 col-5 mx-auto">
                     No More Recipes
                   </button>
