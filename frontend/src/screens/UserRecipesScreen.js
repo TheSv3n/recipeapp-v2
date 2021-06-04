@@ -5,7 +5,7 @@ import RecipeListItem from "../components/RecipeListItem";
 import UserPageSwitch from "../components/UserPageSwitch";
 import ProfileInfo from "../components/ProfileInfo";
 import Loader from "../components/Loader";
-import UserScreenProfile from "../components/UserScreenProfile";
+import UserListItem from "../components/UserListItem";
 import { listUsersRecipes, listUsersFavorites } from "../actions/recipeActions";
 import { listFollowedUsers } from "../actions/userActions";
 import { updatePageHeading } from "../actions/navBarActions";
@@ -44,8 +44,12 @@ const UserRecipesScreen = ({ history }) => {
   const updateFeed = () => {
     if (showFavorites) {
       dispatch(listUsersFavorites(pageFavorites + 1, false));
-    } else {
+    }
+    if (showMyRecipes) {
       dispatch(listUsersRecipes(page + 1, false));
+    }
+    if (showFollowing) {
+      dispatch(listFollowedUsers(pageFollowed + 1));
     }
   };
 
@@ -149,7 +153,7 @@ const UserRecipesScreen = ({ history }) => {
               })
             : usersFollowed &&
               usersFollowed.map((user) => {
-                return <UserScreenProfile userId={user._id} />;
+                return <UserListItem key={user._id} user={user} />;
               })}
         </section>
       )}
@@ -173,7 +177,20 @@ const UserRecipesScreen = ({ history }) => {
             {showProfile ? (
               ""
             ) : showFollowing ? (
-              ""
+              <div className="input-group col-12  my-1 mr-auto mb-5">
+                {feedFinshedFollowed ? (
+                  <button className="btn disabled-button mx-3 col-5 mx-auto">
+                    No more users
+                  </button>
+                ) : (
+                  <button
+                    onClick={updateFeed}
+                    className="btn submit-button mx-3 col-5 mx-auto"
+                  >
+                    Get more users
+                  </button>
+                )}
+              </div>
             ) : (
               <div className="input-group col-12  my-1 mr-auto mb-5">
                 {(showFavorites && feedFinshedFavorites) ||
