@@ -5,6 +5,7 @@ import {
   getAllRecipes,
   getRecipe,
   getUsersRecipes,
+  getUsersRecipeCount,
   getUsersFavorites,
   setRecipeRating,
   addRecipeFollower,
@@ -17,6 +18,7 @@ router.route("/").post(protect, createRecipe).get(getAllRecipes);
 router.route("/:id").get(getRecipe);
 router.route("/user/:id").get(getUsersRecipes);
 router.route("/user/:id/favorites").get(protect, getUsersFavorites);
+router.route("/user/:id/count").get(getUsersRecipeCount);
 router.route("/:id/ratings").post(protect, setRecipeRating);
 router.route("/:id/addfollower").put(protect, addRecipeFollower);
 router.route("/:id/removefollower").put(protect, removeRecipeFollower);

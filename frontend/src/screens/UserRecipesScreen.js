@@ -159,7 +159,7 @@ const UserRecipesScreen = ({ history }) => {
       )}
 
       <div className="container">
-        {loading || loadingFavorites || !userInfo ? (
+        {loading || loadingFavorites || loadingFollowed || !userInfo ? (
           <Loader />
         ) : (
           <>

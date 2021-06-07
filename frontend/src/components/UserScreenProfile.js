@@ -57,37 +57,16 @@ const UserScreenProfile = ({ userId }) => {
           <div className="row">
             <div className="col-12 mx-auto col-md-12 col-lg-12">
               <li className="list-group-item text-capitalize my-2">
-                <form>
+                <div className="container">
                   <div className="row">
-                    <div className="input-group col-12  my-1">
-                      <div className="input-group-prepend">
-                        <div className="input-group-text text-white">
-                          <i className="fas fa-user mr-3" />
-                          Username
-                        </div>
+                    <div className="col-12 mx-auto col-md-12 col-lg-12">
+                      <div className="recipe-info">
+                        <h3>{user.userName}</h3>
+                        <h5>{user.name.split(" ")[0]}</h5>
                       </div>
-                      {user.userName}
                     </div>
                   </div>
-                  <>
-                    <div className="row">
-                      <div className="input-group col-6  my-1">
-                        <div className="input-group-prepend">
-                          <div className="input-group-text text-white">
-                            <i className="fas fa-id-card mr-3" />
-                            First Name
-                          </div>
-                        </div>
-                        <input
-                          type="text"
-                          className="form-control text-capitalize"
-                          placeholder="First Name"
-                          value={user.name.split(" ")[0]}
-                        />
-                      </div>
-                    </div>
-                  </>
-                </form>
+                </div>
                 <div className="row">
                   <div className="container col-12">
                     {userInfo ? (

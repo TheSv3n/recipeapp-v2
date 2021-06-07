@@ -78,7 +78,7 @@ const getRecipe = asyncHandler(async (req, res) => {
   }
 });
 
-//@desc Fetch Users Recipe
+//@desc Fetch Users Recipes
 //@route GET /api/recipes/user/:id
 //@access Public
 const getUsersRecipes = asyncHandler(async (req, res) => {
@@ -92,6 +92,15 @@ const getUsersRecipes = asyncHandler(async (req, res) => {
     .limit(pageSize)
     .skip(pageSize * (page - 1));
   res.json({ recipes, page, pages: Math.ceil(count / pageSize) });
+});
+
+//@desc Fetch Users Recipe count
+//@route GET /api/recipes/user/:id/count
+//@access Public
+const getUsersRecipeCount = asyncHandler(async (req, res) => {
+  const count = await Recipe.countDocuments({ creator: req.params.id });
+
+  res.json(count);
 });
 
 //@desc Fetch Users Favorites
@@ -261,6 +270,7 @@ export {
   getAllRecipes,
   getRecipe,
   getUsersRecipes,
+  getUsersRecipeCount,
   getUsersFavorites,
   setRecipeRating,
   addRecipeFollower,
