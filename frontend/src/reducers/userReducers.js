@@ -19,6 +19,7 @@ import {
   USER_FOLLOWING_FAIL,
   USER_FOLLOWING_UPDATE_REQUEST,
   USER_FOLLOWING_SUCCESS,
+  USER_FOLLOWING_RESET,
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -99,6 +100,9 @@ export const userFollowingListReducer = (state = { users: [] }, action) => {
       return { loading: false, error: action.payload };
     case USER_FOLLOWING_UPDATE_REQUEST:
       return { ...state, loading: true };
+    case USER_FOLLOWING_RESET: {
+      return {};
+    }
     default:
       return state;
   }

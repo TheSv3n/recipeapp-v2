@@ -20,6 +20,11 @@ const userSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
+    image: {
+      type: String,
+      required: true,
+      default: "/uploads/defaultUser.jpg",
+    },
     password: {
       type: String,
       required: true,

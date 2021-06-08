@@ -15,6 +15,7 @@ import {
   USER_PROFILE_FAIL,
   USER_PROFILE_SUCCESS,
   USER_PROFILE_REQUEST,
+  USER_PROFILE_RESET,
   USER_ADD_FOLLOWER_REQUEST,
   USER_ADD_FOLLOWER_SUCCESS,
   USER_ADD_FOLLOWER_FAIL,
@@ -25,7 +26,9 @@ import {
   USER_FOLLOWING_UPDATE_REQUEST,
   USER_FOLLOWING_SUCCESS,
   USER_FOLLOWING_FAIL,
+  USER_FOLLOWING_RESET,
 } from "../constants/userConstants";
+import { RECIPE_CREATE_RESET } from "../constants/recipeConstants";
 
 export const login = (userName, password) => async (dispatch) => {
   try {
@@ -67,6 +70,9 @@ export const logout = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_REGISTER_RESET });
   dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: USER_PROFILE_RESET });
+  dispatch({ type: RECIPE_CREATE_RESET });
+  dispatch({ type: USER_FOLLOWING_RESET });
 };
 
 export const registerUser =

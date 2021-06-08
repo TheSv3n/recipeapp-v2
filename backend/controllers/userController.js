@@ -6,7 +6,7 @@ import User from "../models/userModel.js";
 //@route POST /api/users
 //@access Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { userName, firstName, lastName, email, password } = req.body;
+  const { userName, firstName, lastName, email, password, image } = req.body;
 
   const userExists =
     (await User.findOne({ email: email })) ||
@@ -26,6 +26,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     userNameLower: userName.toLowerCase(),
     followedBy: [],
+    image,
   });
 
   if (user) {
@@ -36,6 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
       email: user.email,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
+      image: image,
     });
   } else {
     res.status(400);

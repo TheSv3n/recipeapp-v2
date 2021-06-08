@@ -7,10 +7,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import LoginWidget from "../components/LoginWidget";
 import Loader from "../components/Loader";
+import axios from "axios";
 
 const UserScreenProfile = ({ userId }) => {
   const dispatch = useDispatch();
   const [userFollowing, setUserFollowing] = useState(false);
+  const [recipeCount, setRecipeCount] = useState(0);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -24,6 +26,13 @@ const UserScreenProfile = ({ userId }) => {
     } else {
       dispatch(removeUserFollower(userId));
     }
+  };
+
+  const getRecipeCount = async (userId) => {
+    const { data: count } = await axios.get(
+      `/api/recipes/user/${userId}/count`
+    );
+    setRecipeCount(count);
   };
 
   const checkUserFollowing = (followedBy, userId) => {
@@ -44,6 +53,7 @@ const UserScreenProfile = ({ userId }) => {
     } else {
       if (userInfo && user) {
         checkUserFollowing(user.followedBy, userInfo._id);
+        getRecipeCount(user._id);
       }
     }
   }, [dispatch, userId, userInfo, user]);
@@ -55,14 +65,29 @@ const UserScreenProfile = ({ userId }) => {
       ) : (
         user && (
           <div className="row">
-            <div className="col-12 mx-auto col-md-12 col-lg-12">
+            <div className="col-6 mx-auto col-md-6 col-lg-6">
               <li className="list-group-item text-capitalize my-2">
                 <div className="container">
                   <div className="row">
                     <div className="col-12 mx-auto col-md-12 col-lg-12">
                       <div className="recipe-info">
+                        <div className="img-container">
+                          <img
+                            src={user && user.image}
+                            alt=""
+                            className="recipe-image mx-auto"
+                          ></img>
+                        </div>
                         <h3>{user.userName}</h3>
-                        <h5>{user.name.split(" ")[0]}</h5>
+                        <div className="mx-auto">
+                          <h5>{user.name.split(" ")[0]}</h5>
+                        </div>
+                        <div className="row">
+                          <div className="ml-5">Recipes: {recipeCount}</div>
+                          <div className="ml-auto mr-5">
+                            Followers: {user.followedBy.length}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
