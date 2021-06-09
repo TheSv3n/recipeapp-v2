@@ -130,7 +130,7 @@ const RecipeScreen = ({ match }) => {
                   <img
                     src={recipe && recipe.image}
                     alt=""
-                    className="recipe-image mx-auto"
+                    className="recipe-image mx-auto img-fluid"
                   ></img>
                 </div>
                 <div className="row">
