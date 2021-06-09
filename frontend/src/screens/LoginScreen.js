@@ -3,6 +3,8 @@ import { login, registerUser } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePageHeading } from "../actions/navBarActions";
 import Meta from "../components/Meta";
+import axios from "axios";
+import Loader from "../components/Loader";
 
 const LoginScreen = ({ location, history }) => {
   const titleString = "Login - RecipeApp";
@@ -15,6 +17,9 @@ const LoginScreen = ({ location, history }) => {
   const [lastName, setLastName] = useState("");
   const [newUserToggle, setNewUserToggle] = useState(false);
   const [errorText, setErrorText] = useState("");
+  const [image, setImage] = useState();
+  const [uploading, setUploading] = useState(false);
+  const [imageName, setImageName] = useState("No Image");
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -84,7 +89,9 @@ const LoginScreen = ({ location, history }) => {
   const createUserHandler = (e) => {
     e.preventDefault();
     if (dataValid()) {
-      dispatch(registerUser(userName, firstName, lastName, email, password));
+      dispatch(
+        registerUser(userName, firstName, lastName, email, password, image)
+      );
     }
   };
 
@@ -96,6 +103,35 @@ const LoginScreen = ({ location, history }) => {
   const toggleNewUserHandler = (e) => {
     e.preventDefault();
     setNewUserToggle(!newUserToggle);
+  };
+
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploading(true);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "mutipart/form-data",
+        },
+      };
+
+      const { data } = await axios.post("/api/upload/", formData, config);
+      setImage(data);
+      setUploading(false);
+      setImageName(e.target.value);
+    } catch (error) {
+      console.error(error);
+      setUploading(false);
+    }
+  };
+
+  const clearImageHandler = () => {
+    document.getElementById("image-form").value = "";
+    setImageName("No Image");
+    setImage("");
   };
 
   return (
@@ -218,6 +254,38 @@ const LoginScreen = ({ location, history }) => {
                           value={emailVerify}
                           onChange={(e) => setEmailVerify(e.target.value)}
                         />
+                      </div>
+                    </div>
+                    <div className="row d-block my-2">
+                      <div className="input-group col-12 ">
+                        <label for="image-form" className="mr-1 my-auto">
+                          <i className="fas fa-image" /> Add Image
+                        </label>
+                        <input
+                          id="image-form"
+                          type="file"
+                          className="form-file"
+                          onChange={uploadFileHandler}
+                        />
+                        {uploading ? (
+                          <Loader />
+                        ) : (
+                          <div className="d-flex col-6 my-auto">
+                            <div className="d-none d-md-flex d-lg-flex">
+                              {imageName}
+                            </div>
+                            {image === "" ? (
+                              ""
+                            ) : (
+                              <button
+                                className="btn btn-block submit-button col-3 ml-2"
+                                onClick={clearImageHandler}
+                              >
+                                Clear
+                              </button>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </>

@@ -73,7 +73,7 @@ const UserScreenProfile = ({ userId }) => {
                       <div className="recipe-info">
                         <div className="img-container">
                           <img
-                            src={user && user.image}
+                            src={user.image}
                             alt=""
                             className="recipe-image mx-auto"
                           ></img>

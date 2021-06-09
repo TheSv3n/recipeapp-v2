@@ -100,6 +100,7 @@ const getUserById = asyncHandler(async (req, res) => {
     name: 1,
     isAdmin: 1,
     followedBy: 1,
+    image: 1,
   });
   if (user) {
     res.json(user);
