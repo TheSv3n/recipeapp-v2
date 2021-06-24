@@ -13,6 +13,12 @@
   --bgClear: rgba(0, 0, 0, 0.6);
 }
 
+body::before {
+  display: block;
+  content: "";
+  height: 70px;
+}
+
 .title-text {
   font-size: 2rem;
 }

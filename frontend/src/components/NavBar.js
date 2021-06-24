@@ -7,7 +7,7 @@ const NavBar = () => {
   const pageHeading = useSelector((state) => state.pageHeading);
   const { title } = pageHeading;
   return (
-    <div className="navbar">
+    <div className="navbar fixed-top">
       <div className="mr-auto ml-4 title-text">
         <span className="nav-icon-span" onClick={history.goBack}>
           <i className="far fa-arrow-alt-circle-left" />
