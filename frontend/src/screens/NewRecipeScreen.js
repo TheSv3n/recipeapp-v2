@@ -11,7 +11,7 @@ import { updatePageHeading } from "../actions/navBarActions";
 import Meta from "../components/Meta";
 
 const NewRecipeScreen = ({ history }) => {
-  const titleString = "Create Recipe - RecipeApp";
+  const titleString = "Create Recipe";
   const dispatch = useDispatch();
 
   const [recipeName, setRecipeName] = useState("");

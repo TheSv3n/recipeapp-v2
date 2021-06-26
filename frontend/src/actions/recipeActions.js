@@ -130,7 +130,7 @@ export const getRecipeInfo = (recipeId) => async (dispatch, getState) => {
       type: RECIPE_DETAILS_SUCCESS,
       payload: data,
     });
-    dispatch(updatePageHeading(`${data.name} - RecipeApp`));
+    dispatch(updatePageHeading(`${data.name}`));
   } catch (error) {
     dispatch({
       type: RECIPE_DETAILS_FAIL,

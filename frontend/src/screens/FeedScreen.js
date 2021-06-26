@@ -11,7 +11,7 @@ import Meta from "../components/Meta";
 import { updatePageHeading } from "../actions/navBarActions";
 
 const FeedScreen = ({ match }) => {
-  const titleString = "Main Feed - RecipeApp";
+  const titleString = "Main Feed";
   const searchString = match.params.search;
   const dispatch = useDispatch();
 
