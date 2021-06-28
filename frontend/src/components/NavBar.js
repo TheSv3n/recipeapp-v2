@@ -13,7 +13,7 @@ const NavBar = () => {
           <i className="far fa-arrow-alt-circle-left" />
         </span>
       </div>
-      <div className="mx-auto title-text">{title}</div>
+      <div className="mx-auto title-text page-heading">{title}</div>
       <div className="ml-auto mr-4 title-text">
         <Link to="/" style={{ textDecoration: "none" }}>
           <span className="nav-icon-span">

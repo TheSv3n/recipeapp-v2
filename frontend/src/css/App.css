@@ -19,10 +19,6 @@ body::before {
   height: 70px;
 }
 
-.title-text {
-  font-size: 2rem;
-}
-
 body {
   font-family: "Nunito Sans", sans-serif !important;
   background: var(--mainGrey);
@@ -36,12 +32,16 @@ body {
 
 .title-text {
   font-family: "Cabin", sans-serif !important;
-  font-size: 2rem;
   color: var(--mainWhite) !important;
+}
+
+.page-heading {
+  font-size: 1.5rem;
 }
 
 .nav-icon-span {
   color: var(--mainWhite);
+  font-size: 2rem;
 }
 
 .list-group-item {
@@ -95,7 +95,7 @@ body {
   margin: 0 auto;
 }
 
-@media screen and (min-width: 768px) {
+@media (min-width: 768px) {
   .recipe-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -103,16 +103,20 @@ body {
     grid-row-gap: 1.5rem;
     padding-bottom: 2rem;
   }
+
+  .page-heading {
+    font-size: 2rem;
+  }
 }
 
-@media screen and (min-width: 992px) {
+@media (min-width: 992px) {
   .recipe-list {
     width: 85vw;
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media screen and (min-width: 1140px) {
+@media (min-width: 1140px) {
   .recipe-list {
     grid-template-columns: repeat(4, 1fr);
   }

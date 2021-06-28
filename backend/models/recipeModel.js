@@ -53,7 +53,8 @@ const ingredientSchema = mongoose.Schema({
   },
   quantity: {
     type: String,
-    required: true,
+    required: false,
+    default: "",
   },
 });
 
