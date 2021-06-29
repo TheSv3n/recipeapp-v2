@@ -118,29 +118,33 @@ export const createRecipe = (recipe) => async (dispatch, getState) => {
   }
 };
 
-export const getRecipeInfo = (recipeId) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: RECIPE_DETAILS_REQUEST,
-    });
+export const getRecipeInfo =
+  (recipeId, update) => async (dispatch, getState) => {
+    try {
+      console.log(update);
+      if (!update) {
+        dispatch({
+          type: RECIPE_DETAILS_REQUEST,
+        });
+      }
 
-    const { data } = await axios.get(`/api/recipes/${recipeId}`);
+      const { data } = await axios.get(`/api/recipes/${recipeId}`);
 
-    dispatch({
-      type: RECIPE_DETAILS_SUCCESS,
-      payload: data,
-    });
-    dispatch(updatePageHeading(`${data.name}`));
-  } catch (error) {
-    dispatch({
-      type: RECIPE_DETAILS_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    });
-  }
-};
+      dispatch({
+        type: RECIPE_DETAILS_SUCCESS,
+        payload: data,
+      });
+      dispatch(updatePageHeading(`${data.name}`));
+    } catch (error) {
+      dispatch({
+        type: RECIPE_DETAILS_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
 
 export const setRecipeRating =
   (recipeId, reaction) => async (dispatch, getState) => {
@@ -169,7 +173,7 @@ export const setRecipeRating =
       dispatch({
         type: RECIPE_SET_RATING_SUCCESS,
       });
-      dispatch(getRecipeInfo(recipeId));
+      dispatch(getRecipeInfo(recipeId, true));
     } catch (error) {
       dispatch({
         type: RECIPE_SET_RATING_FAIL,
@@ -203,7 +207,7 @@ export const addRecipeFollower = (recipeId) => async (dispatch, getState) => {
     dispatch({
       type: RECIPE_ADD_FOLLOWER_SUCCESS,
     });
-    dispatch(getRecipeInfo(recipeId));
+    dispatch(getRecipeInfo(recipeId, true));
   } catch (error) {
     dispatch({
       type: RECIPE_ADD_FOLLOWER_FAIL,
@@ -238,7 +242,7 @@ export const removeRecipeFollower =
       dispatch({
         type: RECIPE_REMOVE_FOLLOWER_SUCCESS,
       });
-      dispatch(getRecipeInfo(recipeId));
+      dispatch(getRecipeInfo(recipeId, true));
     } catch (error) {
       dispatch({
         type: RECIPE_REMOVE_FOLLOWER_FAIL,
@@ -277,7 +281,7 @@ export const addRecipeComment =
       dispatch({
         type: RECIPE_ADD_COMMENT_SUCCESS,
       });
-      dispatch(getRecipeInfo(recipeId));
+      dispatch(getRecipeInfo(recipeId, true));
     } catch (error) {
       dispatch({
         type: RECIPE_ADD_COMMENT_FAIL,
