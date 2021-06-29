@@ -141,20 +141,24 @@ const UserRecipesScreen = ({ history }) => {
         <ProfileInfo />
       ) : (
         <section className="recipe-list">
-          {showFavorites
-            ? recipesFavorites &&
-              recipesFavorites.map((recipe) => {
-                return <RecipeListItem key={recipe.id} recipe={recipe} />;
-              })
-            : showMyRecipes
-            ? recipes &&
-              recipes.map((recipe) => {
-                return <RecipeListItem key={recipe.id} recipe={recipe} />;
-              })
-            : usersFollowed &&
-              usersFollowed.map((user) => {
-                return <UserListItem key={user._id} user={user} />;
-              })}
+          <div className="container">
+            <div className="row">
+              {showFavorites
+                ? recipesFavorites &&
+                  recipesFavorites.map((recipe) => {
+                    return <RecipeListItem key={recipe.id} recipe={recipe} />;
+                  })
+                : showMyRecipes
+                ? recipes &&
+                  recipes.map((recipe) => {
+                    return <RecipeListItem key={recipe.id} recipe={recipe} />;
+                  })
+                : usersFollowed &&
+                  usersFollowed.map((user) => {
+                    return <UserListItem key={user._id} user={user} />;
+                  })}
+            </div>
+          </div>
         </section>
       )}
 

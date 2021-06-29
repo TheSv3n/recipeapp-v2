@@ -57,35 +57,36 @@ const RecipeListItem = ({ recipe }) => {
   }, [recipe, userInfo]);
 
   return (
-    <div className="recipe-card">
-      <Link to={`/recipe/${recipe._id}`} style={{ textDecoration: "none" }}>
-        <div className="img-container">
-          <Image
-            src={recipe.image}
-            alt={recipe.name}
-            fluid
-            className="recipe-card-image"
-          ></Image>
-        </div>
-        <div className="recipe-info">
-          <h3>{recipe.name}</h3>
-          <h4>Uploaded by {userName}</h4>
-          <h5>{recipe.description}</h5>
-          <div className="recipe-card-icons-row">
-            <i className="far fa-thumbs-up mx-2 recipe-card-icon upvoted" />
-            {upvotesCount}
-            <i className="far mx-2 fa-thumbs-down recipe-card-icon downvoted" />
-            {downvotesCount}
-            {userFavorited ? (
-              <i className="fas mx-2 fa-heart recipe-card-icon favorited" />
-            ) : (
-              <i className="far mx-2 fa-heart recipe-card-icon favorited" />
-            )}
-
-            {recipe.followedBy.length}
+    <div className="col-9 col-md-6 col-lg-3 my-3 mx-auto mx-md-0">
+      <div className="recipe-card">
+        <Link to={`/recipe/${recipe._id}`} style={{ textDecoration: "none" }}>
+          <div className="img-container">
+            <Image
+              src={recipe.image}
+              alt={recipe.name}
+              fluid
+              className="recipe-card-image"
+            ></Image>
           </div>
-        </div>
-      </Link>
+          <div className="recipe-info">
+            <h3>{recipe.name}</h3>
+            <h4>Uploaded by {userName}</h4>
+            <h5 className="mb-5">{recipe.description}</h5>
+            <div className="recipe-card-icons-row">
+              <i className="far fa-thumbs-up mx-2 recipe-card-icon upvoted" />
+              {upvotesCount}
+              <i className="far mx-2 fa-thumbs-down recipe-card-icon downvoted" />
+              {downvotesCount}
+              {userFavorited ? (
+                <i className="fas mx-2 fa-heart recipe-card-icon favorited" />
+              ) : (
+                <i className="far mx-2 fa-heart recipe-card-icon favorited" />
+              )}
+              {recipe.followedBy.length}
+            </div>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 };

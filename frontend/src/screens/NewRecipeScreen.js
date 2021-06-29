@@ -139,7 +139,7 @@ const NewRecipeScreen = ({ history }) => {
                     <div className="input-group col-12  my-1 mr-auto">
                       <div className="input-group-prepend">
                         <div className="input-group-text text-white">
-                          <i className="fas fa-utensils mr-2" /> Recipe Name
+                          <i className="fas fa-utensils" />
                         </div>
                       </div>
                       <input
@@ -168,7 +168,7 @@ const NewRecipeScreen = ({ history }) => {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="input-group col-5  my-1">
+                    <div className="input-group col-6  my-1">
                       <div className="input-group-prepend">
                         <div className="input-group-text text-white">
                           <i className="fas fa-tag" />
@@ -185,7 +185,10 @@ const NewRecipeScreen = ({ history }) => {
                         className="btn input-button col-4 ml-auto"
                         onClick={addTempTag}
                       >
-                        Add Tag
+                        <span className="d-none d-lg-block">Add Tag</span>
+                        <span className="d-lg-none">
+                          <i className="fas fa-plus" />
+                        </span>
                       </button>
                     </div>
                     <div className="tag-grid">
@@ -233,7 +236,12 @@ const NewRecipeScreen = ({ history }) => {
                         className="btn input-button col-5 ml-auto"
                         onClick={addTempIngredient}
                       >
-                        Add Ingredient
+                        <span className="d-none d-lg-block">
+                          Add Ingredient
+                        </span>
+                        <span className="d-lg-none">
+                          <i className="fas fa-plus" />
+                        </span>
                       </button>
                     </div>
                   </div>

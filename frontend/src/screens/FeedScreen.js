@@ -78,10 +78,14 @@ const FeedScreen = ({ match }) => {
       </div>
 
       <section className="recipe-list">
-        {recipes &&
-          recipes.map((recipe) => {
-            return <RecipeListItem key={recipe.id} recipe={recipe} />;
-          })}
+        <div className="container">
+          <div className="row">
+            {recipes &&
+              recipes.map((recipe) => {
+                return <RecipeListItem key={recipe.id} recipe={recipe} />;
+              })}
+          </div>
+        </div>
       </section>
 
       <div className="container">

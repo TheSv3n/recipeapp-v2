@@ -43,8 +43,8 @@ const ProfileInfo = () => {
                     <div className="input-group col-12  my-1">
                       <div className="input-group-prepend">
                         <div className="input-group-text text-white">
-                          <i className="fas fa-user mr-3" />
-                          Username
+                          <i className="fas fa-user mr-md-3" />
+                          <span className="d-none d-md-block">Username</span>
                         </div>
                       </div>
                       <input
@@ -61,8 +61,10 @@ const ProfileInfo = () => {
                       <div className="input-group col-6  my-1">
                         <div className="input-group-prepend">
                           <div className="input-group-text text-white">
-                            <i className="fas fa-id-card mr-3" />
-                            First Name
+                            <i className="fas fa-id-card mr-md-3" />
+                            <span className="d-none d-md-block">
+                              First Name
+                            </span>
                           </div>
                         </div>
                         <input
@@ -75,8 +77,8 @@ const ProfileInfo = () => {
                       <div className="input-group col-6 my-1">
                         <div className="input-group-prepend">
                           <div className="input-group-text text-white">
-                            <i className="fas fa-id-card mr-3" />
-                            Last Name
+                            <i className="fas fa-id-card mr-md-3" />
+                            <span className="d-none d-md-block">Last Name</span>
                           </div>
                         </div>
                         <input
@@ -91,8 +93,10 @@ const ProfileInfo = () => {
                       <div className="input-group col-12 my-1">
                         <div className="input-group-prepend">
                           <div className="input-group-text text-white">
-                            <i className="fas fa-at mr-3" />
-                            Email Address
+                            <i className="fas fa-at mr-md-3" />
+                            <span className="d-none d-md-block">
+                              Email Address
+                            </span>
                           </div>
                         </div>
                         <input

@@ -8,13 +8,13 @@ const NavBar = () => {
   const { title } = pageHeading;
   return (
     <div className="navbar fixed-top">
-      <div className="mr-auto ml-4 title-text">
+      <div className="mr-auto ml-md-4 title-text">
         <span className="nav-icon-span" onClick={history.goBack}>
           <i className="far fa-arrow-alt-circle-left" />
         </span>
       </div>
       <div className="mx-auto title-text page-heading">{title}</div>
-      <div className="ml-auto mr-4 title-text">
+      <div className="ml-auto mr-md-4 title-text">
         <Link to="/" style={{ textDecoration: "none" }}>
           <span className="nav-icon-span">
             {" "}
