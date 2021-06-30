@@ -168,7 +168,7 @@ const NewRecipeScreen = ({ history }) => {
                     </div>
                   </div>
                   <div className="row">
-                    <div className="input-group col-6  my-1">
+                    <div className="input-group col-7 col-md-4 my-1">
                       <div className="input-group-prepend">
                         <div className="input-group-text text-white">
                           <i className="fas fa-tag" />
@@ -191,7 +191,7 @@ const NewRecipeScreen = ({ history }) => {
                         </span>
                       </button>
                     </div>
-                    <div className="tag-grid">
+                    <div className="new-tag-grid">
                       {tagArray.map((tag) => {
                         return (
                           <TempTag
@@ -233,7 +233,7 @@ const NewRecipeScreen = ({ history }) => {
                         onChange={(e) => setIngredientQuantity(e.target.value)}
                       />
                       <button
-                        className="btn input-button col-5 ml-auto"
+                        className="btn input-button col-5 ml-auto d-none d-lg-block"
                         onClick={addTempIngredient}
                       >
                         <span className="d-none d-lg-block">
@@ -280,7 +280,7 @@ const NewRecipeScreen = ({ history }) => {
                       {uploading ? (
                         <Loader />
                       ) : (
-                        <div className="d-flex col-6 my-auto">
+                        <div className="d-flex col-6 col-md-3 my-auto">
                           <div className="d-none d-md-flex d-lg-flex">
                             {imageName}
                           </div>
@@ -288,7 +288,7 @@ const NewRecipeScreen = ({ history }) => {
                             ""
                           ) : (
                             <button
-                              className="btn btn-block submit-button col-3 ml-2"
+                              className="btn btn-block submit-button ml-2"
                               onClick={clearImageHandler}
                             >
                               Clear

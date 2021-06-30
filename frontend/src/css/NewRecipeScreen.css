@@ -16,7 +16,7 @@ label:hover {
   z-index: -1;
 }
 
-.tag-grid {
+.new-tag-grid {
   display: inline-flex;
   grid-column-gap: 1.5rem;
   grid-row-gap: 0.5rem;

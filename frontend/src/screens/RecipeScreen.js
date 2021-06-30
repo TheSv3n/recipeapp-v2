@@ -151,12 +151,16 @@ const RecipeScreen = ({ match }) => {
                     </div>
                   </div>
                   <div className="row recipe-heading">Tags</div>
-                  <section className="tag-grid">
-                    {recipe &&
-                      recipe.tags &&
-                      recipe.tags.map((tag) => {
-                        return <TagElement key={tag._id} tag={tag} />;
-                      })}
+                  <section className="recipe-tag-grid">
+                    <div className="container">
+                      <div className="row mx-auto">
+                        {recipe &&
+                          recipe.tags &&
+                          recipe.tags.map((tag) => {
+                            return <TagElement key={tag._id} tag={tag} />;
+                          })}
+                      </div>
+                    </div>
                   </section>
                   <div className="row recipe-heading">Ingredients</div>
                   <section className="ingredient-grid">

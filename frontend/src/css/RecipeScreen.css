@@ -7,12 +7,6 @@
   padding-bottom: 0.5rem;
 }
 
-.tag-grid {
-  display: inline-flex;
-  grid-column-gap: 1.5rem;
-  grid-row-gap: 0.5rem;
-}
-
 .recipe-tag {
   border-radius: 10px;
   width: fit-content;
@@ -56,6 +50,12 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .ingredient-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .recipe-icon:hover {
