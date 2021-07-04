@@ -15,7 +15,7 @@ const FeedSwitch = ({ showTopRated, handleFeedSwitch }) => {
                     showTopRated ? "switch-inactive" : ""
                   } col-4 col-md-2 col-lg-3`}
                 >
-                  Latest
+                  <span className="switch-text">Latest</span>
                 </button>
                 <button
                   type="submit"
@@ -23,7 +23,7 @@ const FeedSwitch = ({ showTopRated, handleFeedSwitch }) => {
                     showTopRated ? "" : "switch-inactive"
                   } col-4 col-md-2 col-lg-3`}
                 >
-                  Top Rated
+                  <span className="switch-text">Top Rated</span>
                 </button>
               </div>
             </>

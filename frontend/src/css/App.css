@@ -54,10 +54,7 @@ body {
 .input-button {
   background: var(--mainRed) !important;
   color: var(--mainWhite) !important;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
+  border-radius: 0px 15px 15px 0px;
 }
 
 .input-button:hover {

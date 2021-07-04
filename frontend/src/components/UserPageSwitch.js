@@ -21,7 +21,7 @@ const UserPageSwitch = ({
                   } col-4 col-md-2 col-lg-3`}
                   onClick={(e) => handleFavoritesSwitch(e, 1)}
                 >
-                  My Recipes
+                  <span className="switch-text">My Recipes</span>
                 </button>
                 <button
                   type="submit"
@@ -30,7 +30,7 @@ const UserPageSwitch = ({
                   } col-4 col-md-2 col-lg-3`}
                   onClick={(e) => handleFavoritesSwitch(e, 2)}
                 >
-                  Favorites
+                  <span className="switch-text">Favorites</span>
                 </button>
                 <button
                   type="submit"
@@ -39,7 +39,7 @@ const UserPageSwitch = ({
                   } col-4 col-md-2 col-lg-3`}
                   onClick={(e) => handleFavoritesSwitch(e, 3)}
                 >
-                  Followed Users
+                  <span className="switch-text">Followed Users</span>
                 </button>
                 <button
                   type="submit"
@@ -48,7 +48,7 @@ const UserPageSwitch = ({
                   } col-4 col-md-2 col-lg-3`}
                   onClick={(e) => handleFavoritesSwitch(e, 4)}
                 >
-                  Profile
+                  <span className="switch-text">Profile</span>
                 </button>
               </div>
             </>

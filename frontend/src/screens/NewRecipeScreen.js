@@ -245,6 +245,14 @@ const NewRecipeScreen = ({ history }) => {
                       </button>
                     </div>
                   </div>
+                  <div className="row d-lg-none d-block">
+                    <button
+                      className="btn submit-button mx-3 col-5 mx-auto"
+                      onClick={addTempIngredient}
+                    >
+                      Add ingredient
+                    </button>
+                  </div>
                   {ingredientArray.map((ingredient) => {
                     return (
                       <TempIngredient

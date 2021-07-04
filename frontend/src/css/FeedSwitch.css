@@ -1,19 +1,13 @@
 .right-button {
   background: var(--mainRed);
   color: var(--mainWhite);
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
+  border-radius: 0px 15px 15px 0px;
 }
 
 .left-button {
   background: var(--mainRed);
   color: var(--mainWhite);
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+  border-radius: 15px 0px 0px 15px;
 }
 
 .middle-button {
