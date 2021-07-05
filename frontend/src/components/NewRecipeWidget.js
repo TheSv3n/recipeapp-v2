@@ -14,7 +14,7 @@ const NewRecipeWidget = () => {
         <div className="row">
           <button
             type="submit"
-            className="btn submit-button mx-3 col-5 mx-auto"
+            className="btn submit-button mx-3 col-6 col-md-5 mx-auto"
           >
             Create Recipe
           </button>

@@ -42,3 +42,7 @@ label:hover {
   transition: all 0.2s linear;
   padding-left: 0.2rem;
 }
+
+.recipe-area {
+  min-height: 15rem;
+}

@@ -17,7 +17,7 @@ const UserListItem = ({ user }) => {
   }, [user]);
 
   return (
-    <div className="col-9 col-md-6 col-lg-3 my-3">
+    <div className="col-9 col-md-6 col-lg-3 my-3 mx-auto mx-md-0">
       <div className="recipe-card">
         <Link to={`/user/${user._id}`} style={{ textDecoration: "none" }}>
           <div className="container">

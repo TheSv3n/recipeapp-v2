@@ -247,7 +247,7 @@ const NewRecipeScreen = ({ history }) => {
                   </div>
                   <div className="row d-lg-none d-block">
                     <button
-                      className="btn submit-button mx-3 col-5 mx-auto"
+                      className="btn submit-button mx-3 col-6 mx-auto"
                       onClick={addTempIngredient}
                     >
                       Add ingredient
