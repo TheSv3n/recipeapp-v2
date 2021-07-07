@@ -22,7 +22,7 @@ const NewRecipeScreen = ({ history }) => {
   const [ingredientQuantity, setIngredientQuantity] = useState("");
   const [directions, setDirections] = useState("");
   const [ingredientArray, setIngredientArray] = useState([]);
-  const [image, setImage] = useState();
+  const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(false);
   const [imageName, setImageName] = useState("No Image");
 
