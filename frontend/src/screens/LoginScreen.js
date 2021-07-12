@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { login, registerUser } from "../actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
-import { updatePageHeading } from "../actions/navBarActions";
+import { updatePageHeading, updateBackButton } from "../actions/navBarActions";
 import Meta from "../components/Meta";
 import axios from "axios";
 import Loader from "../components/Loader";
@@ -41,6 +41,7 @@ const LoginScreen = ({ location, history }) => {
       setErrorText(registerError);
     }
     dispatch(updatePageHeading(titleString));
+    dispatch(updateBackButton(true));
   }, [history, userInfo, redirect, error, registerError, dispatch]);
 
   const dataValid = () => {

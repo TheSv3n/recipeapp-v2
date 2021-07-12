@@ -15,6 +15,7 @@ import {
 import "../css/RecipeScreen.css";
 import Meta from "../components/Meta";
 import { Link } from "react-router-dom";
+import { updateBackButton } from "../actions/navBarActions";
 
 const RecipeScreen = ({ match }) => {
   const dispatch = useDispatch();
@@ -112,6 +113,7 @@ const RecipeScreen = ({ match }) => {
       setFavoriteCount(recipe.followedBy.length);
       getUserName(recipe.creator);
     }
+    dispatch(updateBackButton(true));
   }, [dispatch, userInfo, recipeId, recipe]);
 
   return (

@@ -8,7 +8,7 @@ import Loader from "../components/Loader";
 import UserListItem from "../components/UserListItem";
 import { listUsersRecipes, listUsersFavorites } from "../actions/recipeActions";
 import { listFollowedUsers } from "../actions/userActions";
-import { updatePageHeading } from "../actions/navBarActions";
+import { updatePageHeading, updateBackButton } from "../actions/navBarActions";
 import Meta from "../components/Meta";
 
 const UserRecipesScreen = ({ history }) => {
@@ -108,6 +108,7 @@ const UserRecipesScreen = ({ history }) => {
       } else {
         dispatch(updatePageHeading(`My Profile`));
       }
+      dispatch(updateBackButton(true));
     }
   }, [
     dispatch,

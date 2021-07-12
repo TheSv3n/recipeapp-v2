@@ -8,7 +8,7 @@ import SearchWidget from "../components/SearchWidget";
 import FeedSwitch from "../components/FeedSwitch";
 import Loader from "../components/Loader";
 import Meta from "../components/Meta";
-import { updatePageHeading } from "../actions/navBarActions";
+import { updatePageHeading, updateBackButton } from "../actions/navBarActions";
 
 const FeedScreen = ({ match }) => {
   const titleString = "Main Feed - RecipeApp";
@@ -47,6 +47,7 @@ const FeedScreen = ({ match }) => {
       dispatch(listRecipes(1, searchKeyword, showTopRated));
     }
     dispatch(updatePageHeading(titleString));
+    dispatch(updateBackButton(false));
   }, [dispatch, searchKeyword, showTopRated, searchString]);
 
   return (

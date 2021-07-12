@@ -7,7 +7,7 @@ import "../css/NewRecipeScreen.css";
 import { useDispatch, useSelector } from "react-redux";
 import { createRecipe } from "../actions/recipeActions";
 import { RECIPE_CREATE_RESET } from "../constants/recipeConstants";
-import { updatePageHeading } from "../actions/navBarActions";
+import { updatePageHeading, updateBackButton } from "../actions/navBarActions";
 import Meta from "../components/Meta";
 
 const NewRecipeScreen = ({ history }) => {
@@ -124,6 +124,7 @@ const NewRecipeScreen = ({ history }) => {
       history.push(`/recipe/${recipe._id}`);
     }
     dispatch(updatePageHeading(titleString));
+    dispatch(updateBackButton(true));
   }, [dispatch, history, userInfo, success, recipe]);
 
   return (

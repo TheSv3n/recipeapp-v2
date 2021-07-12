@@ -6,12 +6,20 @@ const NavBar = () => {
   const history = useHistory();
   const pageHeading = useSelector((state) => state.pageHeading);
   const { title } = pageHeading;
+
+  const backButton = useSelector((state) => state.backButton);
+  const { showBack } = backButton;
+
   return (
     <div className="navbar fixed-top">
       <div className="mr-auto ml-md-4 title-text">
-        <span className="nav-icon-span" onClick={history.goBack}>
-          <i className="far fa-arrow-alt-circle-left" />
-        </span>
+        {showBack ? (
+          <span className="nav-icon-span" onClick={history.goBack}>
+            <i className="far fa-arrow-alt-circle-left" />
+          </span>
+        ) : (
+          ""
+        )}
       </div>
       <div className="mx-auto title-text page-heading">{title}</div>
       <div className="ml-auto mr-md-4 title-text">

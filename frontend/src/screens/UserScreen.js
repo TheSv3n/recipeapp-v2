@@ -5,7 +5,7 @@ import UserScreenSwitch from "../components/UserScreenSwitch";
 import UserScreenProfile from "../components/UserScreenProfile";
 import Loader from "../components/Loader";
 import { listUsersRecipes } from "../actions/recipeActions";
-import { updatePageHeading } from "../actions/navBarActions";
+import { updatePageHeading, updateBackButton } from "../actions/navBarActions";
 import Meta from "../components/Meta";
 import axios from "axios";
 
@@ -41,6 +41,7 @@ const UserScreen = ({ match }) => {
       dispatch(updatePageHeading(`${userName}'s Recipes`));
     }
     getUserName(userId);
+    dispatch(updateBackButton(true));
   }, [dispatch, showProfile, userName, userId]);
 
   return (
