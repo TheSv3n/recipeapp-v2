@@ -240,6 +240,30 @@ const removeRecipeFollower = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Submit new tag
+// @route   POST /api/recipes/:id/tags
+// @access  Private
+const addNewTag = asyncHandler(async (req, res) => {
+  const { tag } = req.body;
+
+  const recipe = await Recipe.findById(req.params.id);
+
+  if (recipe) {
+    const newTag = {
+      tag: tag,
+      tagLower: tag.toLowerCase(),
+    };
+
+    recipe.tags.push(newTag);
+
+    await recipe.save();
+    res.status(201).json({ message: "Tag Added" });
+  } else {
+    res.status(404);
+    throw new Error("Recipe not found");
+  }
+});
+
 // @desc    Submit new comment
 // @route   POST /api/recipes/:id/comments
 // @access  Private
@@ -276,4 +300,5 @@ export {
   addRecipeFollower,
   removeRecipeFollower,
   addNewComment,
+  addNewTag,
 };
