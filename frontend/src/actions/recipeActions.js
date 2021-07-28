@@ -29,6 +29,9 @@ import {
   RECIPE_FAVORITES_LIST_SUCCESS,
   RECIPE_FAVORITES_LIST_FAIL,
   RECIPE_FAVORITES_LIST_UPDATE_REQUEST,
+  RECIPE_ADD_TAG_REQUEST,
+  RECIPE_ADD_TAG_SUCCESS,
+  RECIPE_ADD_TAG_FAIL,
 } from "../constants/recipeConstants";
 import { updatePageHeading } from "../actions/navBarActions";
 import axios from "axios";
@@ -412,3 +415,37 @@ export const listUsersFavorites =
       });
     }
   };
+
+export const addRecipeTag = (recipeId, tag) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: RECIPE_ADD_TAG_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.post(`/api/recipes/${recipeId}/tags`, { tag: tag }, config);
+
+    dispatch({
+      type: RECIPE_ADD_TAG_SUCCESS,
+    });
+    dispatch(getRecipeInfo(recipeId, true));
+  } catch (error) {
+    dispatch({
+      type: RECIPE_ADD_TAG_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

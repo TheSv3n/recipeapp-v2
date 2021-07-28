@@ -5,6 +5,7 @@ import LoginWidget from "../components/LoginWidget";
 import TagElement from "../components/TagElement";
 import IngredientElement from "../components/IngredientElement";
 import CommentBox from "../components/CommentBox";
+import AddTagWidget from "../components/AddTagWidget";
 import Loader from "../components/Loader";
 import {
   getRecipeInfo,
@@ -29,6 +30,7 @@ const RecipeScreen = ({ match }) => {
   const [userDownvoted, setUserDownvoted] = useState(false);
   const [userFavorited, setUserFavorited] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(0);
+  const [userOwnsRecipe, setUserOwnsRecipe] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -100,6 +102,12 @@ const RecipeScreen = ({ match }) => {
     }
   };
 
+  const checkUserOwns = (userId, creatorId) => {
+    if (userId === creatorId) {
+      setUserOwnsRecipe(true);
+    }
+  };
+
   useEffect(() => {
     if (!recipe || recipe._id !== recipeId) {
       dispatch(getRecipeInfo(recipeId, false));
@@ -107,6 +115,7 @@ const RecipeScreen = ({ match }) => {
       if (userInfo) {
         checkUserRating(recipe.ratings, userInfo._id);
         checkUserFavorite(recipe.followedBy, userInfo._id);
+        checkUserOwns(userInfo._id, recipe.creator);
       }
 
       countRatings(recipe.ratings);
@@ -161,6 +170,11 @@ const RecipeScreen = ({ match }) => {
                           recipe.tags.map((tag) => {
                             return <TagElement key={tag._id} tag={tag} />;
                           })}
+                        {userOwnsRecipe ? (
+                          <AddTagWidget recipeId={recipe._id} />
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
                   </section>
