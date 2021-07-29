@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { addRecipeTag } from "../actions/recipeActions";
 
 const AddTagWidget = ({ recipeId }) => {
   const dispatch = useDispatch();
   const [tag, setTag] = useState("");
   const [active, setActive] = useState(false);
 
-  const newTagHandler = () => {};
+  const newTagHandler = () => {
+    dispatch(addRecipeTag(recipeId, tag));
+    setTag("");
+    setActive(false);
+  };
+
   return (
     <>
       {active ? (

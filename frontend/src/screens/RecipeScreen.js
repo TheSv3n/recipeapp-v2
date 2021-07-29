@@ -31,6 +31,9 @@ const RecipeScreen = ({ match }) => {
   const [userFavorited, setUserFavorited] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(0);
   const [userOwnsRecipe, setUserOwnsRecipe] = useState(false);
+  const [editName, setEditName] = useState(false);
+  const [editDescription, setEditDescription] = useState(false);
+  const [editDirections, setEditDirections] = useState(false);
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -138,7 +141,12 @@ const RecipeScreen = ({ match }) => {
                 <li className="list-group-item my-1 my-md-2 my-lg-2 mx-2">
                   <div className="row">
                     <div className="recipe-title mx-auto">
-                      {recipe && recipe.name}
+                      {recipe && recipe.name + "  "}
+                      {userOwnsRecipe ? (
+                        <i className="fas fa-edit recipe-icon" />
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                   <div className="img-container">
@@ -150,7 +158,12 @@ const RecipeScreen = ({ match }) => {
                   </div>
                   <div className="row">
                     <div className="recipe-description mx-auto">
-                      {recipe && recipe.description}
+                      {recipe && recipe.description + "   "}
+                      {userOwnsRecipe ? (
+                        <i className="fas fa-edit recipe-icon" />
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                   <div className="row">
@@ -194,7 +207,12 @@ const RecipeScreen = ({ match }) => {
                   <div className="row recipe-heading">Directions</div>
                   <div className="row">
                     <div className="recipe-directions">
-                      {recipe && recipe.directions}
+                      {recipe && recipe.directions + "  "}
+                      {userOwnsRecipe ? (
+                        <i className="fas fa-edit recipe-icon" />
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                   <div className="recipe-page-icons-row">
