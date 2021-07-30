@@ -34,6 +34,9 @@ const RecipeScreen = ({ match }) => {
   const [editName, setEditName] = useState(false);
   const [editDescription, setEditDescription] = useState(false);
   const [editDirections, setEditDirections] = useState(false);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [directions, setDirections] = useState("");
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -111,6 +114,18 @@ const RecipeScreen = ({ match }) => {
     }
   };
 
+  const updateName = () => {
+    setEditName(false);
+  };
+
+  const updateDescription = () => {
+    setEditDescription(false);
+  };
+
+  const updateDirections = () => {
+    setEditDirections(false);
+  };
+
   useEffect(() => {
     if (!recipe || recipe._id !== recipeId) {
       dispatch(getRecipeInfo(recipeId, false));
@@ -140,14 +155,43 @@ const RecipeScreen = ({ match }) => {
               <ul className="list-group">
                 <li className="list-group-item my-1 my-md-2 my-lg-2 mx-2">
                   <div className="row">
-                    <div className="recipe-title mx-auto">
-                      {recipe && recipe.name + "  "}
-                      {userOwnsRecipe ? (
-                        <i className="fas fa-edit recipe-icon" />
-                      ) : (
-                        ""
-                      )}
-                    </div>
+                    {editName ? (
+                      <div className="input-group col-5 mx-auto my-1">
+                        <div className="input-group-prepend">
+                          <div className="input-group-text text-white">
+                            <i className="fas fa-utensils" />
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Recipe Name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                        />
+                        <button
+                          className="btn input-button col-4 ml-auto"
+                          onClick={updateName}
+                        >
+                          Update
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="recipe-title mx-auto">
+                        {recipe && recipe.name + "  "}
+                        {userOwnsRecipe ? (
+                          <i
+                            className="fas fa-edit recipe-icon"
+                            onClick={() => {
+                              setEditName(!editName);
+                              setName(recipe.name);
+                            }}
+                          />
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    )}
                   </div>
                   <div className="img-container">
                     <img
@@ -157,14 +201,43 @@ const RecipeScreen = ({ match }) => {
                     ></img>
                   </div>
                   <div className="row">
-                    <div className="recipe-description mx-auto">
-                      {recipe && recipe.description + "   "}
-                      {userOwnsRecipe ? (
-                        <i className="fas fa-edit recipe-icon" />
-                      ) : (
-                        ""
-                      )}
-                    </div>
+                    {editDescription ? (
+                      <div className="input-group col-5 mx-auto mt-2">
+                        <div className="input-group-prepend">
+                          <div className="input-group-text text-white">
+                            <i className="fas fa-info-circle" />
+                          </div>
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Description"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                        />
+                        <button
+                          className="btn input-button col-4 ml-auto"
+                          onClick={updateDescription}
+                        >
+                          Update
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="recipe-description mx-auto">
+                        {recipe && recipe.description + "   "}
+                        {userOwnsRecipe ? (
+                          <i
+                            className="fas fa-edit recipe-icon"
+                            onClick={() => {
+                              setEditDescription(!editDescription);
+                              setDescription(recipe.description);
+                            }}
+                          />
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    )}
                   </div>
                   <div className="row">
                     <div className="recipe-description mx-auto">
@@ -206,14 +279,40 @@ const RecipeScreen = ({ match }) => {
                   </section>
                   <div className="row recipe-heading">Directions</div>
                   <div className="row">
-                    <div className="recipe-directions">
-                      {recipe && recipe.directions + "  "}
-                      {userOwnsRecipe ? (
-                        <i className="fas fa-edit recipe-icon" />
-                      ) : (
-                        ""
-                      )}
-                    </div>
+                    {editDirections ? (
+                      <>
+                        <div className="input-group col-12  my-1 mr-auto">
+                          <textarea
+                            type="text"
+                            className="form-control recipe-area"
+                            placeholder="Directions"
+                            value={directions}
+                            onChange={(e) => setDirections(e.target.value)}
+                          />
+                        </div>
+                        <button
+                          className="btn submit-button col-4 mx-auto"
+                          onClick={updateDirections}
+                        >
+                          Update
+                        </button>
+                      </>
+                    ) : (
+                      <div className="recipe-directions">
+                        {recipe && recipe.directions + "  "}
+                        {userOwnsRecipe ? (
+                          <i
+                            className="fas fa-edit recipe-icon"
+                            onClick={() => {
+                              setEditDirections(!editDirections);
+                              setDirections(recipe.directions);
+                            }}
+                          />
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    )}
                   </div>
                   <div className="recipe-page-icons-row">
                     <span
