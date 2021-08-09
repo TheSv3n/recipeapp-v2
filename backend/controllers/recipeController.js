@@ -289,6 +289,25 @@ const addNewComment = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Edit recipe info
+// @route   PUT /api/recipes/:id/
+// @access  Private
+const editRecipeDetails = asyncHandler(async (req, res) => {
+  const recipe = await Recipe.findById(req.params.id);
+
+  if (recipe) {
+    recipe.name = req.body.name || recipe.name;
+    recipe.description = req.body.description || recipe.description;
+    recipe.directions = req.body.directions || recipe.directions;
+
+    await recipe.save();
+    res.status(201).json({ message: "Recipe Updated" });
+  } else {
+    res.status(404);
+    throw new Error("Recipe not found");
+  }
+});
+
 export {
   createRecipe,
   getAllRecipes,
@@ -301,4 +320,5 @@ export {
   removeRecipeFollower,
   addNewComment,
   addNewTag,
+  editRecipeDetails,
 };
