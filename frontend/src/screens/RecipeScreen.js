@@ -12,6 +12,7 @@ import {
   setRecipeRating,
   addRecipeFollower,
   removeRecipeFollower,
+  updateRecipe,
 } from "../actions/recipeActions";
 import "../css/RecipeScreen.css";
 import Meta from "../components/Meta";
@@ -116,14 +117,17 @@ const RecipeScreen = ({ match }) => {
 
   const updateName = () => {
     setEditName(false);
+    dispatch(updateRecipe(recipeId, { name: name }));
   };
 
   const updateDescription = () => {
     setEditDescription(false);
+    dispatch(updateRecipe(recipeId, { description: description }));
   };
 
   const updateDirections = () => {
     setEditDirections(false);
+    dispatch(updateRecipe(recipeId, { directions: directions }));
   };
 
   useEffect(() => {
@@ -156,7 +160,7 @@ const RecipeScreen = ({ match }) => {
                 <li className="list-group-item my-1 my-md-2 my-lg-2 mx-2">
                   <div className="row">
                     {editName ? (
-                      <div className="input-group col-5 mx-auto my-1">
+                      <div className="input-group col-10 col-md-5 mx-auto my-1">
                         <div className="input-group-prepend">
                           <div className="input-group-text text-white">
                             <i className="fas fa-utensils" />
@@ -202,7 +206,7 @@ const RecipeScreen = ({ match }) => {
                   </div>
                   <div className="row">
                     {editDescription ? (
-                      <div className="input-group col-5 mx-auto mt-2">
+                      <div className="input-group col-10 col-md-5 mx-auto mt-2">
                         <div className="input-group-prepend">
                           <div className="input-group-text text-white">
                             <i className="fas fa-info-circle" />
