@@ -174,11 +174,19 @@ const RecipeScreen = ({ match }) => {
                           onChange={(e) => setName(e.target.value)}
                         />
                         <button
-                          className="btn input-button col-4 ml-auto"
+                          className="btn input-button col-4"
                           onClick={updateName}
                         >
                           Update
                         </button>
+                        <div className="my-auto">
+                          <i
+                            className="fas fa-times close-icon ml-3"
+                            onClick={() => {
+                              setEditName(!editName);
+                            }}
+                          ></i>
+                        </div>
                       </div>
                     ) : (
                       <div className="recipe-title mx-auto">
@@ -220,11 +228,19 @@ const RecipeScreen = ({ match }) => {
                           onChange={(e) => setDescription(e.target.value)}
                         />
                         <button
-                          className="btn input-button col-4 ml-auto"
+                          className="btn input-button col-4"
                           onClick={updateDescription}
                         >
                           Update
                         </button>
+                        <div className="my-auto">
+                          <i
+                            className="fas fa-times close-icon ml-3"
+                            onClick={() => {
+                              setEditDescription(!editDescription);
+                            }}
+                          ></i>
+                        </div>
                       </div>
                     ) : (
                       <div className="recipe-description mx-auto">
@@ -299,6 +315,14 @@ const RecipeScreen = ({ match }) => {
                           onClick={updateDirections}
                         >
                           Update
+                        </button>
+                        <button
+                          className="btn submit-button col-4 mx-auto"
+                          onClick={() => {
+                            setEditDirections(!editDirections);
+                          }}
+                        >
+                          Cancel
                         </button>
                       </>
                     ) : (
